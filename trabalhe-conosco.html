@@ -133,63 +133,21 @@
                         </p>
 
                         <form id="formTrabalhe" class="space-y-5" enctype="multipart/form-data">
-                            <!-- Nome Completo -->
                             <div>
-                                <label for="nome_cv" class="block text-sm font-semibold mb-2" style="color: #0D1B2A;">
-                                    Nome Completo *
-                                </label>
-                                <input 
-                                    type="text" 
-                                    id="nome_cv" 
-                                    name="nome_cv" 
-                                    required
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg transition"
-                                    placeholder="Seu nome completo"
-                                >
+                                <label for="nome_cv" class="block text-sm font-semibold mb-2" style="color: #0D1B2A;">Nome Completo *</label>
+                                <input type="text" id="nome_cv" name="nome_cv" required class="w-full px-4 py-3 border border-gray-300 rounded-lg transition" placeholder="Seu nome completo">
                             </div>
-
-                            <!-- Email -->
                             <div>
-                                <label for="email_cv" class="block text-sm font-semibold mb-2" style="color: #0D1B2A;">
-                                    E-mail *
-                                </label>
-                                <input 
-                                    type="email" 
-                                    id="email_cv" 
-                                    name="email_cv" 
-                                    required
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg transition"
-                                    placeholder="seu.email@exemplo.com"
-                                >
+                                <label for="email_cv" class="block text-sm font-semibold mb-2" style="color: #0D1B2A;">E-mail *</label>
+                                <input type="email" id="email_cv" name="email_cv" required class="w-full px-4 py-3 border border-gray-300 rounded-lg transition" placeholder="seu.email@exemplo.com">
                             </div>
-
-                            <!-- Telefone -->
                             <div>
-                                <label for="telefone_cv" class="block text-sm font-semibold mb-2" style="color: #0D1B2A;">
-                                    Telefone/WhatsApp *
-                                </label>
-                                <input 
-                                    type="tel" 
-                                    id="telefone_cv" 
-                                    name="telefone_cv" 
-                                    required
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg transition"
-                                    placeholder="(00) 00000-0000"
-                                    maxlength="15"
-                                >
+                                <label for="telefone_cv" class="block text-sm font-semibold mb-2" style="color: #0D1B2A;">Telefone/WhatsApp *</label>
+                                <input type="tel" id="telefone_cv" name="telefone_cv" required class="w-full px-4 py-3 border border-gray-300 rounded-lg transition" placeholder="(00) 00000-0000" maxlength="15">
                             </div>
-
-                            <!-- Cargo de Interesse -->
                             <div>
-                                <label for="cargo" class="block text-sm font-semibold mb-2" style="color: #0D1B2A;">
-                                    Cargo de Interesse *
-                                </label>
-                                <select 
-                                    id="cargo" 
-                                    name="cargo" 
-                                    required
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg transition"
-                                >
+                                <label for="cargo" class="block text-sm font-semibold mb-2" style="color: #0D1B2A;">Cargo de Interesse *</label>
+                                <select id="cargo" name="cargo" required class="w-full px-4 py-3 border border-gray-300 rounded-lg transition">
                                     <option value="">Selecione uma área</option>
                                     <option value="Motorista">Motorista</option>
                                     <option value="Operacional/Logística">Operacional/Logística</option>
@@ -200,69 +158,26 @@
                                     <option value="Outro">Outro</option>
                                 </select>
                             </div>
-
-                            <!-- LinkedIn (Opcional) -->
                             <div>
-                                <label for="linkedin" class="block text-sm font-semibold mb-2" style="color: #0D1B2A;">
-                                    LinkedIn (opcional)
-                                </label>
-                                <input 
-                                    type="url" 
-                                    id="linkedin" 
-                                    name="linkedin"
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg transition"
-                                    placeholder="https://linkedin.com/in/seuperfil"
-                                >
+                                <label for="linkedin" class="block text-sm font-semibold mb-2" style="color: #0D1B2A;">LinkedIn (opcional)</label>
+                                <input type="url" id="linkedin" name="linkedin" class="w-full px-4 py-3 border border-gray-300 rounded-lg transition" placeholder="https://linkedin.com/in/seuperfil">
                             </div>
-
-                            <!-- Upload de Currículo -->
                             <div>
-                                <label for="curriculo" class="block text-sm font-semibold mb-2" style="color: #0D1B2A;">
-                                    Anexar Currículo * (PDF, DOC, DOCX - Máx 5MB)
-                                </label>
+                                <label for="curriculo" class="block text-sm font-semibold mb-2" style="color: #0D1B2A;">Anexar Currículo * (PDF, DOC, DOCX - Máx 5MB)</label>
                                 <div class="relative">
-                                    <input 
-                                        type="file" 
-                                        id="curriculo" 
-                                        name="curriculo"
-                                        accept=".pdf,.doc,.docx"
-                                        required
-                                        class="w-full px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg transition cursor-pointer"
-                                        style="background-color: #F9FAFB;"
-                                    >
+                                    <input type="file" id="curriculo" name="curriculo" accept=".pdf,.doc,.docx" required class="w-full px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg transition cursor-pointer" style="background-color: #F9FAFB;">
                                 </div>
-                                <p class="text-xs mt-2" style="color: #B0B3B5;">
-                                    Formatos aceitos: PDF, DOC ou DOCX. Tamanho máximo: 5MB
-                                </p>
+                                <p class="text-xs mt-2" style="color: #B0B3B5;">Formatos aceitos: PDF, DOC ou DOCX. Tamanho máximo: 5MB</p>
                             </div>
-
-                            <!-- Mensagem Adicional (Opcional) -->
                             <div>
-                                <label for="mensagem_cv" class="block text-sm font-semibold mb-2" style="color: #0D1B2A;">
-                                    Mensagem Adicional (opcional)
-                                </label>
-                                <textarea 
-                                    id="mensagem_cv" 
-                                    name="mensagem_cv"
-                                    rows="4"
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg transition resize-none"
-                                    placeholder="Conte um pouco sobre você e por que quer trabalhar na Marilog..."
-                                ></textarea>
+                                <label for="mensagem_cv" class="block text-sm font-semibold mb-2" style="color: #0D1B2A;">Mensagem Adicional (opcional)</label>
+                                <textarea id="mensagem_cv" name="mensagem_cv" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg transition resize-none" placeholder="Conte um pouco sobre você e por que quer trabalhar na Marilog..."></textarea>
                             </div>
-
-                            <!-- Botão de Envio -->
                             <div class="pt-4">
-                                <button 
-                                    type="submit" 
-                                    id="btnEnviarCV"
-                                    class="w-full text-white font-bold py-4 px-6 rounded-lg transition duration-300 transform hover:scale-105 shadow-lg"
-                                    style="background-color: #66CC33;"
-                                >
+                                <button type="submit" id="btnEnviarCV" class="w-full text-white font-bold py-4 px-6 rounded-lg transition duration-300 transform hover:scale-105 shadow-lg" style="background-color: #66CC33;">
                                     Enviar Currículo
                                 </button>
                             </div>
-
-                            <!-- Mensagem de Status -->
                             <div id="mensagemStatusCV" class="hidden mt-4 p-4 rounded-lg text-center font-semibold"></div>
                         </form>
                     </div>
@@ -454,7 +369,7 @@
                 const formData = new FormData(this);
 
                 // 1. Send to Google Sheets webhook
-                const webhookUrl = document.getElementById('https://script.google.com/macros/s/AKfycbyhNnQeGRpAZgqucLwyQamK6P45xfNvtYvf3kYg3DP9WAEbelwxzf0T2UE2Hk0cxJbA_Q/exec').value;
+                const webhookUrl = document.getElementById('webhook_url').value;
                 if (webhookUrl) {
                     await fetch(webhookUrl, {
                         method: 'POST',
@@ -515,10 +430,9 @@
         // --- CONFIGURAÇÃO DE EMAIL (Aqui tu muda o email de RH/Recrutamento) ---
         const EMAIL_RH = 'comercial@marilog.com.br'; // Pode trocar depois pra rh@marilog.com.br
 
-        // --- URL do Google Apps Script (Cola aqui depois de configurar) ---
+        // --- URL do Google Apps Script (JÁ CONFIGURADA!) ---
         const WEBHOOK_GOOGLE_CV = 'https://script.google.com/macros/s/AKfycbyhNnQeGRpAZgqucLwyQamK6P45xfNvtYvf3kYg3DP9WAEbelwxzf0T2UE2Hk0cxJbA_Q/exec';
 
-        // === Máscara de telefone - deixa bonitão ===
         const telefoneCvInput = document.getElementById('telefone_cv');
         if (telefoneCvInput) {
             telefoneCvInput.addEventListener('input', function(e) {
@@ -532,7 +446,6 @@
             });
         }
 
-        // === Efeito visual verde Marilog nos inputs ===
         const inputsCV = document.querySelectorAll('#formTrabalhe input, #formTrabalhe select, #formTrabalhe textarea');
         inputsCV.forEach(input => {
             input.addEventListener('focus', function() {
@@ -545,20 +458,16 @@
             });
         });
 
-        // === Validação do arquivo ===
         const curriculoInput = document.getElementById('curriculo');
         if (curriculoInput) {
             curriculoInput.addEventListener('change', function(e) {
                 const file = e.target.files[0];
                 if (file) {
-                    // Verifica tamanho (5MB = 5 * 1024 * 1024 bytes)
                     if (file.size > 5 * 1024 * 1024) {
                         alert('Arquivo muito grande! O tamanho máximo é 5MB.');
                         this.value = '';
                         return;
                     }
-
-                    // Verifica tipo
                     const tiposPermitidos = ['.pdf', '.doc', '.docx'];
                     const extensao = '.' + file.name.split('.').pop().toLowerCase();
                     if (!tiposPermitidos.includes(extensao)) {
@@ -566,15 +475,12 @@
                         this.value = '';
                         return;
                     }
-
-                    // Feedback visual de sucesso
                     this.style.borderColor = '#66CC33';
                     this.style.backgroundColor = '#F0FDF4';
                 }
             });
         }
 
-        // === Envio do formulário - aqui acontece a magia ===
         const formTrabalhe = document.getElementById('formTrabalhe');
         const btnEnviarCV = document.getElementById('btnEnviarCV');
         const mensagemStatusCV = document.getElementById('mensagemStatusCV');
@@ -583,12 +489,10 @@
             formTrabalhe.addEventListener('submit', async function(e) {
                 e.preventDefault();
 
-                // Desabilita o botão pra evitar spam
                 btnEnviarCV.disabled = true;
                 btnEnviarCV.innerHTML = 'Enviando currículo...';
                 btnEnviarCV.style.backgroundColor = '#B0B3B5';
 
-                // Pega o arquivo
                 const arquivo = document.getElementById('curriculo').files[0];
                 if (!arquivo) {
                     mostrarMensagemCV('Por favor, anexe seu currículo!', 'erro');
@@ -598,7 +502,6 @@
                     return;
                 }
 
-                // Prepara os dados
                 const formData = new FormData();
                 formData.append('Nome', document.getElementById('nome_cv').value);
                 formData.append('Email', document.getElementById('email_cv').value);
@@ -612,18 +515,15 @@
                 formData.append('_captcha', 'false');
 
                 try {
-                    // === Envia pro email via FormSubmit (com anexo) ===
                     const responseEmail = await fetch('https://formsubmit.co/' + EMAIL_RH, {
                         method: 'POST',
                         body: formData
                     });
 
-                    // FormSubmit com arquivo não retorna JSON, mas se não deu erro 4xx/5xx, sucesso!
                     if (responseEmail.status < 400) {
                         mostrarMensagemCV('Currículo enviado com sucesso! Analisaremos e entraremos em contato em breve.', 'sucesso');
                         formTrabalhe.reset();
 
-                        // Reset do visual do input de arquivo
                         if (curriculoInput) {
                             curriculoInput.style.borderColor = '#D1D5DB';
                             curriculoInput.style.backgroundColor = '#F9FAFB';
@@ -632,31 +532,28 @@
                         throw new Error('Erro no envio');
                     }
 
-                    // === Tenta enviar pro Google Sheets (sem arquivo, só dados) ===
-                    if (WEBHOOK_GOOGLE_CV !== 'https://script.google.com/macros/s/AKfycbyhNnQeGRpAZgqucLwyQamK6P45xfNvtYvf3kYg3DP9WAEbelwxzf0T2UE2Hk0cxJbA_Q/exec') {
-                        try {
-                            const dadosCV = {
-                                tipo: 'Curriculo',
-                                nome: document.getElementById('nome_cv').value,
-                                email: document.getElementById('email_cv').value,
-                                telefone: document.getElementById('telefone_cv').value,
-                                cargo: document.getElementById('cargo').value,
-                                linkedin: document.getElementById('linkedin').value || 'Não informado',
-                                mensagem: document.getElementById('mensagem_cv').value || 'Sem mensagem',
-                                arquivo: arquivo.name,
-                                data: new Date().toLocaleString('pt-BR')
-                            };
+                    try {
+                        const dadosCV = {
+                            tipo: 'Curriculo',
+                            nome: document.getElementById('nome_cv').value,
+                            email: document.getElementById('email_cv').value,
+                            telefone: document.getElementById('telefone_cv').value,
+                            cargo: document.getElementById('cargo').value,
+                            linkedin: document.getElementById('linkedin').value || 'Não informado',
+                            mensagem: document.getElementById('mensagem_cv').value || 'Sem mensagem',
+                            arquivo: arquivo.name,
+                            data: new Date().toLocaleString('pt-BR')
+                        };
 
-                            await fetch(WEBHOOK_GOOGLE_CV, {
-                                method: 'POST',
-                                mode: 'no-cors',
-                                headers: {'Content-Type': 'application/json'},
-                                body: JSON.stringify(dadosCV)
-                            });
-                            console.log('Dados salvos no CRM');
-                        } catch (err) {
-                            console.warn('Erro ao salvar no CRM:', err);
-                        }
+                        await fetch(WEBHOOK_GOOGLE_CV, {
+                            method: 'POST',
+                            mode: 'no-cors',
+                            headers: {'Content-Type': 'application/json'},
+                            body: JSON.stringify(dadosCV)
+                        });
+                        console.log('Dados salvos no CRM');
+                    } catch (err) {
+                        console.warn('Erro ao salvar no CRM:', err);
                     }
 
                 } catch (error) {
@@ -670,7 +567,6 @@
             });
         }
 
-        // === Mostra mensagem de sucesso ou erro ===
         function mostrarMensagemCV(texto, tipo) {
             mensagemStatusCV.textContent = texto;
             mensagemStatusCV.classList.remove('hidden');
@@ -683,13 +579,11 @@
                 mensagemStatusCV.style.color = 'white';
             }
 
-            // Scroll suave até a mensagem
             mensagemStatusCV.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
             setTimeout(() => mensagemStatusCV.classList.add('hidden'), 8000);
         }
 
-        // === Validação de email em tempo real ===
         const emailCvInput = document.getElementById('email_cv');
         if (emailCvInput) {
             emailCvInput.addEventListener('blur', function() {
@@ -708,4 +602,3 @@
 </body>
 
 </html>
-
