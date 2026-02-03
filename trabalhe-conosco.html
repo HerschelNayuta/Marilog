@@ -454,7 +454,7 @@
                 const formData = new FormData(this);
 
                 // 1. Send to Google Sheets webhook
-                const webhookUrl = document.getElementById('webhook_url').value;
+                const webhookUrl = document.getElementById('https://script.google.com/macros/s/AKfycbyhNnQeGRpAZgqucLwyQamK6P45xfNvtYvf3kYg3DP9WAEbelwxzf0T2UE2Hk0cxJbA_Q/exec').value;
                 if (webhookUrl) {
                     await fetch(webhookUrl, {
                         method: 'POST',
@@ -516,7 +516,7 @@
         const EMAIL_RH = 'comercial@marilog.com.br'; // Pode trocar depois pra rh@marilog.com.br
 
         // --- URL do Google Apps Script (Cola aqui depois de configurar) ---
-        const WEBHOOK_GOOGLE_CV = 'SEU_WEBHOOK_AQUI';
+        const WEBHOOK_GOOGLE_CV = 'https://script.google.com/macros/s/AKfycbyhNnQeGRpAZgqucLwyQamK6P45xfNvtYvf3kYg3DP9WAEbelwxzf0T2UE2Hk0cxJbA_Q/exec';
 
         // === Máscara de telefone - deixa bonitão ===
         const telefoneCvInput = document.getElementById('telefone_cv');
@@ -633,7 +633,7 @@
                     }
 
                     // === Tenta enviar pro Google Sheets (sem arquivo, só dados) ===
-                    if (WEBHOOK_GOOGLE_CV !== 'SEU_WEBHOOK_AQUI') {
+                    if (WEBHOOK_GOOGLE_CV !== 'https://script.google.com/macros/s/AKfycbyhNnQeGRpAZgqucLwyQamK6P45xfNvtYvf3kYg3DP9WAEbelwxzf0T2UE2Hk0cxJbA_Q/exec') {
                         try {
                             const dadosCV = {
                                 tipo: 'Curriculo',
@@ -708,3 +708,4 @@
 </body>
 
 </html>
+
