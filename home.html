@@ -757,31 +757,31 @@
                         </div>
                     </div>
 
-                    <!-- === Formulário de Contato === -->
+                    <!-- Formulário de Contato -->
                     <div>
                         <div class="bg-gray-50 rounded-2xl p-8 shadow-lg">
                             <h3 class="font-heading font-bold text-2xl mb-6" style="color: #0D1B2A;">Solicite seu Orçamento</h3>
 
-                            <form id="formContato" class="space-y-5">
+                            <form id="formContatoMarilog" class="space-y-5">
                                 <div>
-                                    <label for="nome" class="block text-sm font-semibold mb-2" style="color: #0D1B2A;">Nome Completo *</label>
-                                    <input type="text" id="nome" name="nome" required class="w-full px-4 py-3 border border-gray-300 rounded-lg transition" placeholder="Digite seu nome completo">
+                                    <label for="nomeForm" class="block text-sm font-semibold mb-2" style="color: #0D1B2A;">Nome Completo *</label>
+                                    <input type="text" id="nomeForm" required class="w-full px-4 py-3 border border-gray-300 rounded-lg transition" placeholder="Digite seu nome completo">
                                 </div>
                                 <div>
-                                    <label for="email" class="block text-sm font-semibold mb-2" style="color: #0D1B2A;">E-mail *</label>
-                                    <input type="email" id="email" name="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg transition" placeholder="seu@email.com">
+                                    <label for="emailForm" class="block text-sm font-semibold mb-2" style="color: #0D1B2A;">E-mail *</label>
+                                    <input type="email" id="emailForm" required class="w-full px-4 py-3 border border-gray-300 rounded-lg transition" placeholder="seu@email.com">
                                 </div>
                                 <div>
-                                    <label for="telefone" class="block text-sm font-semibold mb-2" style="color: #0D1B2A;">Telefone/WhatsApp *</label>
-                                    <input type="tel" id="telefone" name="telefone" required class="w-full px-4 py-3 border border-gray-300 rounded-lg transition" placeholder="(00) 00000-0000" maxlength="15">
+                                    <label for="telefoneForm" class="block text-sm font-semibold mb-2" style="color: #0D1B2A;">Telefone/WhatsApp *</label>
+                                    <input type="tel" id="telefoneForm" required class="w-full px-4 py-3 border border-gray-300 rounded-lg transition" placeholder="(00) 00000-0000" maxlength="15">
                                 </div>
                                 <div>
-                                    <label for="empresa" class="block text-sm font-semibold mb-2" style="color: #0D1B2A;">Empresa</label>
-                                    <input type="text" id="empresa" name="empresa" class="w-full px-4 py-3 border border-gray-300 rounded-lg transition" placeholder="Nome da sua empresa">
+                                    <label for="empresaForm" class="block text-sm font-semibold mb-2" style="color: #0D1B2A;">Empresa</label>
+                                    <input type="text" id="empresaForm" class="w-full px-4 py-3 border border-gray-300 rounded-lg transition" placeholder="Nome da sua empresa">
                                 </div>
                                 <div>
-                                    <label for="servico" class="block text-sm font-semibold mb-2" style="color: #0D1B2A;">Serviço de Interesse *</label>
-                                    <select id="servico" name="servico" required class="w-full px-4 py-3 border border-gray-300 rounded-lg transition">
+                                    <label for="servicoForm" class="block text-sm font-semibold mb-2" style="color: #0D1B2A;">Serviço de Interesse *</label>
+                                    <select id="servicoForm" required class="w-full px-4 py-3 border border-gray-300 rounded-lg transition">
                                         <option value="">Selecione um serviço</option>
                                         <option value="Transporte Rodoviário">Transporte Rodoviário</option>
                                         <option value="Armazenagem">Armazenagem</option>
@@ -792,15 +792,15 @@
                                     </select>
                                 </div>
                                 <div>
-                                    <label for="mensagem" class="block text-sm font-semibold mb-2" style="color: #0D1B2A;">Mensagem *</label>
-                                    <textarea id="mensagem" name="mensagem" required rows="5" class="w-full px-4 py-3 border border-gray-300 rounded-lg transition resize-none" placeholder="Conte-nos mais detalhes sobre sua necessidade..."></textarea>
+                                    <label for="mensagemForm" class="block text-sm font-semibold mb-2" style="color: #0D1B2A;">Mensagem *</label>
+                                    <textarea id="mensagemForm" required rows="5" class="w-full px-4 py-3 border border-gray-300 rounded-lg transition resize-none" placeholder="Conte-nos mais detalhes..."></textarea>
                                 </div>
                                 <div class="pt-4">
-                                    <button type="submit" id="btnEnviar" class="w-full text-white font-bold py-4 px-6 rounded-lg transition duration-300 transform hover:scale-105 shadow-lg" style="background-color: #66CC33;">
+                                    <button type="submit" id="btnEnviarMarilog" class="w-full text-white font-bold py-4 px-6 rounded-lg transition duration-300 transform hover:scale-105 shadow-lg" style="background-color: #66CC33;">
                                         Enviar Solicitação
                                     </button>
                                 </div>
-                                <div id="mensagemStatus" class="hidden mt-4 p-4 rounded-lg text-center font-semibold"></div>
+                                <div id="statusMarilog" class="hidden mt-4 p-4 rounded-lg text-center font-semibold"></div>
                             </form>
                         </div>
                     </div>
@@ -829,142 +829,362 @@
     </a>
 
     <!-- JavaScript -->
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // ═══════════════════════════════════════════════════════════════
+        // MOBILE MENU TOGGLE
+        // ═══════════════════════════════════════════════════════════════
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking on a link
+        const mobileLinks = mobileMenu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+            });
+        });
+
+        // ═══════════════════════════════════════════════════════════════
+        // SCROLL REVEAL ANIMATION
+        // ═══════════════════════════════════════════════════════════════
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section-reveal').forEach(el => {
+            observer.observe(el);
+        });
+
+        // ═══════════════════════════════════════════════════════════════
+        // SMOOTH SCROLL FOR NAVIGATION LINKS
+        // ═══════════════════════════════════════════════════════════════
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offset = 80; // Header height
+                    const targetPosition = target.offsetTop - offset;
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // ═══════════════════════════════════════════════════════════════
+        // FORMULÁRIO - MÁSCARA DE TELEFONE
+        // ═══════════════════════════════════════════════════════════════
+        const telefoneInput = document.getElementById('telefone');
+        telefoneInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length <= 11) {
+                value = value.replace(/^(\d{2})(\d)/g, '($1) $2');
+                value = value.replace(/(\d)(\d{4})$/, '$1-$2');
+                e.target.value = value;
+            }
+        });
+
+        // ═══════════════════════════════════════════════════════════════
+        // FORMULÁRIO - ELEMENTOS
+        // ═══════════════════════════════════════════════════════════════
+        const contactForm = document.getElementById('contact-form');
+        const submitBtn = document.getElementById('submit-btn');
+        const formLoading = document.getElementById('form-loading');
+        const formSuccess = document.getElementById('form-success');
+        const formError = document.getElementById('form-error');
+
+        // ═══════════════════════════════════════════════════════════════
+        // FORMULÁRIO - FUNÇÕES DE VALIDAÇÃO
+        // ═══════════════════════════════════════════════════════════════
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        function validatePhone(phone) {
+            const cleaned = phone.replace(/\D/g, '');
+            return cleaned.length >= 10 && cleaned.length <= 11;
+        }
+
+        function showError(input, message) {
+            input.classList.add('border-red-500');
+            input.classList.remove('border-gray-300');
+            const errorMsg = input.parentElement.querySelector('.error-msg');
+            if (errorMsg) {
+                errorMsg.textContent = message;
+                errorMsg.classList.remove('hidden');
+            }
+        }
+
+        function clearError(input) {
+            input.classList.remove('border-red-500');
+            input.classList.add('border-gray-300');
+            const errorMsg = input.parentElement.querySelector('.error-msg');
+            if (errorMsg) {
+                errorMsg.classList.add('hidden');
+            }
+        }
+
+        // Clear errors on input
+        document.querySelectorAll('#contact-form input, #contact-form textarea').forEach(input => {
+            input.addEventListener('input', () => clearError(input));
+            input.addEventListener('focus', () => clearError(input));
+        });
+
+        // ═══════════════════════════════════════════════════════════════
+        // FORMULÁRIO - SUBMISSÃO
+        // ═══════════════════════════════════════════════════════════════
+        // Form submission handler
+        contactForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            // Validate all fields
+            const nome = document.getElementById('nome').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const telefone = document.getElementById('telefone').value.trim();
+            const empresa = document.getElementById('empresa').value.trim();
+            const mensagem = document.getElementById('mensagem').value.trim();
+
+            if (!nome || !email || !telefone || !empresa || !mensagem) {
+                alert('Por favor, preencha todos os campos obrigatórios.');
+                return;
+            }
+
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('Por favor, insira um email válido.');
+                return;
+            }
+
+            // Phone validation (Brazilian format)
+            const phoneRegex = /^\(\d{2}\)\s\d{5}-\d{4}$/;
+            if (!phoneRegex.test(telefone)) {
+                alert('Por favor, insira um telefone válido no formato (XX) XXXXX-XXXX.');
+                return;
+            }
+
+            // Show loading state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const formLoading = document.getElementById('form-loading');
+            const formSuccess = document.getElementById('form-success');
+            const originalBtnText = submitBtn.innerHTML;
+
+            submitBtn.disabled = true;
+            formLoading.classList.remove('hidden');
+            formSuccess.classList.add('hidden');
+
+            try {
+                // Prepare form data for both submissions
+                const formData = new FormData(this);
+
+                // 1. Send to Google Sheets webhook
+                const webhookUrl = document.getElementById('webhook_url').value;
+                if (webhookUrl) {
+                    await fetch(webhookUrl, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            nome: nome,
+                            email: email,
+                            telefone: telefone,
+                            empresa: empresa,
+                            mensagem: mensagem,
+                            timestamp: new Date().toISOString()
+                        })
+                    });
+                }
+
+                // 2. Send to FormSubmit via AJAX (without redirect)
+                const formSubmitUrl = 'https://formsubmit.co/comercial@marilog.com.br';
+                await fetch(formSubmitUrl, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                }).catch(() => {
+                    // FormSubmit may block AJAX, but that's OK - the webhook works
+                    console.log('FormSubmit AJAX submission attempted');
+                });
+
+                // Show success message
+                formLoading.classList.add('hidden');
+                formSuccess.classList.remove('hidden');
+
+                // Reset form after 3 seconds
+                setTimeout(() => {
+                    contactForm.reset();
+                    formSuccess.classList.add('hidden');
+                    submitBtn.disabled = false;
+                }, 3000);
+
+            } catch (error) {
+                console.error('Error:', error);
+                formLoading.classList.add('hidden');
+                alert('Ocorreu um erro ao enviar a mensagem. Por favor, tente novamente.');
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
 
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"9c696eb30bb0dcd8","serverTiming":{"name":{"cfExtPri":true,"cfEdge":true,"cfOrigin":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"version":"2025.9.1","token":"4edd5f8ec12a48cfa682ab8261b80a79"}' crossorigin="anonymous"></script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"9c76c6792e92f8e9","serverTiming":{"name":{"cfExtPri":true,"cfEdge":true,"cfOrigin":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"version":"2025.9.1","token":"4edd5f8ec12a48cfa682ab8261b80a79"}' crossorigin="anonymous"></script>
 
-    <script>
-        const EMAIL_CONTATO = 'comercial@marilog.com.br';
-        const WEBHOOK_GOOGLE = 'https://script.google.com/macros/s/AKfycbwojcm1pPfTTEJN0C8y2TjNYrxzsw2rI3YdPn0BQ07JY0emA7uI302RGegIMy6ed-LlNA/exec';
+<script>
+(function() {
+    'use strict';
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const telefoneInput = document.getElementById('telefone');
-            const formContato = document.getElementById('formContato');
-            const btnEnviar = document.getElementById('btnEnviar');
-            const mensagemStatus = document.getElementById('mensagemStatus');
+    const CONFIG = {
+        email: 'comercial@marilog.com.br',
+        webhook: 'https://script.google.com/macros/s/AKfycbwojcm1pPfTTEJN0C8y2TjNYrxzsw2rI3YdPn0BQ07JY0emA7uI302RGegIMy6ed-LlNA/exec'
+    };
 
-            // Verifica se os elementos existem antes de adicionar eventos
-            if (!formContato) {
-                console.log('Formulário não encontrado');
-                return;
-            }
+    function inicializarFormulario() {
+        const form = document.getElementById('formContatoMarilog');
+        if (!form) {
+            console.log('Formulário não encontrado');
+            return;
+        }
 
-            if (telefoneInput) {
-                telefoneInput.addEventListener('input', function(e) {
-                    let value = e.target.value.replace(/\D/g, '');
-                    if (value.length <= 11) {
-                        value = value.length <= 10 
-                            ? value.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3')
-                            : value.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
-                    }
-                    e.target.value = value;
-                });
-            }
+        console.log('✅ Formulário encontrado e inicializando...');
 
-            const inputs = document.querySelectorAll('#formContato input, #formContato select, #formContato textarea');
-            inputs.forEach(input => {
-                input.addEventListener('focus', function() {
-                    this.style.borderColor = '#66CC33';
-                    this.style.boxShadow = '0 0 0 3px rgba(102, 204, 51, 0.1)';
-                });
-                input.addEventListener('blur', function() {
-                    this.style.borderColor = '#D1D5DB';
-                    this.style.boxShadow = 'none';
-                });
-            });
-
-            formContato.addEventListener('submit', async function(e) {
-                e.preventDefault();
-
-                if (!btnEnviar || !mensagemStatus) return;
-
-                btnEnviar.disabled = true;
-                btnEnviar.innerHTML = 'Enviando...';
-                btnEnviar.style.backgroundColor = '#B0B3B5';
-
-                const formData = {
-                    tipo: 'Contato',
-                    nome: document.getElementById('nome').value,
-                    email: document.getElementById('email').value,
-                    telefone: document.getElementById('telefone').value,
-                    empresa: document.getElementById('empresa').value || 'Não informado',
-                    servico: document.getElementById('servico').value,
-                    mensagem: document.getElementById('mensagem').value,
-                    data: new Date().toLocaleString('pt-BR')
-                };
-
-                try {
-                    console.log('Enviando para Google Sheets:', formData);
-
-                    await fetch(WEBHOOK_GOOGLE, {
-                        method: 'POST',
-                        mode: 'no-cors',
-                        headers: {'Content-Type': 'application/json'},
-                        body: JSON.stringify(formData)
-                    });
-
-                    console.log('✅ Dados salvos no CRM');
-
-                    const responseEmail = await fetch('https://formsubmit.co/ajax/' + EMAIL_CONTATO, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            Nome: formData.nome,
-                            Email: formData.email,
-                            Telefone: formData.telefone,
-                            Empresa: formData.empresa,
-                            Servico: formData.servico,
-                            Mensagem: formData.mensagem,
-                            _subject: 'Novo Contato - ' + formData.servico,
-                            _template: 'table',
-                            _captcha: 'false'
-                        })
-                    });
-
-                    if (responseEmail.ok) {
-                        mostrarMensagem('✅ Mensagem enviada com sucesso! Em breve entraremos em contato.', 'sucesso');
-                        formContato.reset();
-                    } else {
-                        throw new Error('Erro no envio');
-                    }
-
-                } catch (error) {
-                    console.error('❌ Erro:', error);
-                    mostrarMensagem('Ops! Algo deu errado. Tente novamente.', 'erro');
-                } finally {
-                    btnEnviar.disabled = false;
-                    btnEnviar.innerHTML = 'Enviar Solicitação';
-                    btnEnviar.style.backgroundColor = '#66CC33';
+        // Máscara de telefone
+        const tel = document.getElementById('telefoneForm');
+        if (tel) {
+            tel.addEventListener('input', function(e) {
+                let v = e.target.value.replace(/\D/g, '');
+                if (v.length <= 11) {
+                    v = v.length <= 10 
+                        ? v.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3')
+                        : v.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
                 }
+                e.target.value = v;
             });
+        }
 
-            function mostrarMensagem(texto, tipo) {
-                if (!mensagemStatus) return;
-
-                mensagemStatus.textContent = texto;
-                mensagemStatus.classList.remove('hidden');
-
-                if (tipo === 'sucesso') {
-                    mensagemStatus.style.backgroundColor = '#66CC33';
-                    mensagemStatus.style.color = 'white';
-                } else {
-                    mensagemStatus.style.backgroundColor = '#EF4444';
-                    mensagemStatus.style.color = 'white';
-                }
-
-                setTimeout(() => mensagemStatus.classList.add('hidden'), 6000);
-            }
-
-            console.log('✅ Formulário carregado e pronto!');
+        // Efeitos nos inputs
+        const inputs = form.querySelectorAll('input, select, textarea');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.style.borderColor = '#66CC33';
+                this.style.boxShadow = '0 0 0 3px rgba(102, 204, 51, 0.1)';
+            });
+            input.addEventListener('blur', function() {
+                this.style.borderColor = '#D1D5DB';
+                this.style.boxShadow = 'none';
+            });
         });
-    </script>
 
+        // Submit
+        form.addEventListener('submit', enviarFormulario);
+
+        console.log('✅ Eventos configurados!');
+    }
+
+    async function enviarFormulario(e) {
+        e.preventDefault();
+
+        const btn = document.getElementById('btnEnviarMarilog');
+        const status = document.getElementById('statusMarilog');
+
+        btn.disabled = true;
+        btn.innerHTML = 'Enviando...';
+        btn.style.backgroundColor = '#B0B3B5';
+
+        const dados = {
+            tipo: 'Contato',
+            nome: document.getElementById('nomeForm').value,
+            email: document.getElementById('emailForm').value,
+            telefone: document.getElementById('telefoneForm').value,
+            empresa: document.getElementById('empresaForm').value || 'Não informado',
+            servico: document.getElementById('servicoForm').value,
+            mensagem: document.getElementById('mensagemForm').value,
+            data: new Date().toLocaleString('pt-BR')
+        };
+
+        try {
+            // Google Sheets
+            await fetch(CONFIG.webhook, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(dados)
+            });
+            console.log('✅ Enviado para Google Sheets');
+
+            // FormSubmit
+            const resp = await fetch('https://formsubmit.co/ajax/' + CONFIG.email, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+                body: JSON.stringify({
+                    Nome: dados.nome,
+                    Email: dados.email,
+                    Telefone: dados.telefone,
+                    Empresa: dados.empresa,
+                    Servico: dados.servico,
+                    Mensagem: dados.mensagem,
+                    _subject: 'Novo Contato - ' + dados.servico,
+                    _template: 'table',
+                    _captcha: 'false'
+                })
+            });
+
+            if (resp.ok) {
+                mostrarStatus('✅ Mensagem enviada com sucesso!', 'sucesso');
+                document.getElementById('formContatoMarilog').reset();
+            } else {
+                throw new Error('Erro');
+            }
+
+        } catch (erro) {
+            console.error('❌ Erro:', erro);
+            mostrarStatus('Ops! Algo deu errado. Tente novamente.', 'erro');
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = 'Enviar Solicitação';
+            btn.style.backgroundColor = '#66CC33';
+        }
+    }
+
+    function mostrarStatus(texto, tipo) {
+        const status = document.getElementById('statusMarilog');
+        if (!status) return;
+
+        status.textContent = texto;
+        status.classList.remove('hidden');
+        status.style.backgroundColor = tipo === 'sucesso' ? '#66CC33' : '#EF4444';
+        status.style.color = 'white';
+
+        setTimeout(() => status.classList.add('hidden'), 6000);
+    }
+
+    // Inicializa quando DOM carregar
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', inicializarFormulario);
+    } else {
+        inicializarFormulario();
+    }
+
+})();
+</script>
 </body>
 </html>
-
-
-
