@@ -750,7 +750,7 @@
                                 <div>
                                     <h4 class="font-heading font-bold text-marilog-blue mb-2">Email</h4>
                                     <p class="text-gray-600">
-                                        <a href="/cdn-cgi/l/email-protection#2e4d41434b5c4d474f426e434f5c47424149004d4143004c5c" class="hover:text-marilog-green"><span class="__cf_email__" data-cfemail="a0c3cfcdc5d2c3c9c1cce0cdc1d2c9cccfc78ec3cfcd8ec2d2">Comercial@marilog.com.br</span></a>
+                                        <a href="/cdn-cgi/l/email-protection#2e4d41434b5c4d474f426e434f5c47424149004d4143004c5c" class="hover:text-marilog-green"><span class="__cf_email__" data-cfemail="a0c3cfcdc5d2c3c9c1cce0cdc1d2c9cccfc78ec3cfcd8ec2d2">[email&#160;protected]</span></a>
                                     </p>
                                 </div>
                             </div>
@@ -765,23 +765,23 @@
                             <form id="formContato" class="space-y-5">
                                 <div>
                                     <label for="nome" class="block text-sm font-semibold mb-2" style="color: #0D1B2A;">Nome Completo *</label>
-                                    <input type="text" id="nome" name="nome" required class="w-full px-4 py-3 border border-gray-300 rounded-lg transition" style="outline: none;" placeholder="Digite seu nome completo">
+                                    <input type="text" id="nome" name="nome" required class="w-full px-4 py-3 border border-gray-300 rounded-lg transition" placeholder="Digite seu nome completo">
                                 </div>
                                 <div>
                                     <label for="email" class="block text-sm font-semibold mb-2" style="color: #0D1B2A;">E-mail *</label>
-                                    <input type="email" id="email" name="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg transition" style="outline: none;" placeholder="seu@email.com">
+                                    <input type="email" id="email" name="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg transition" placeholder="seu@email.com">
                                 </div>
                                 <div>
                                     <label for="telefone" class="block text-sm font-semibold mb-2" style="color: #0D1B2A;">Telefone/WhatsApp *</label>
-                                    <input type="tel" id="telefone" name="telefone" required class="w-full px-4 py-3 border border-gray-300 rounded-lg transition" style="outline: none;" placeholder="(00) 00000-0000" maxlength="15">
+                                    <input type="tel" id="telefone" name="telefone" required class="w-full px-4 py-3 border border-gray-300 rounded-lg transition" placeholder="(00) 00000-0000" maxlength="15">
                                 </div>
                                 <div>
                                     <label for="empresa" class="block text-sm font-semibold mb-2" style="color: #0D1B2A;">Empresa</label>
-                                    <input type="text" id="empresa" name="empresa" class="w-full px-4 py-3 border border-gray-300 rounded-lg transition" style="outline: none;" placeholder="Nome da sua empresa">
+                                    <input type="text" id="empresa" name="empresa" class="w-full px-4 py-3 border border-gray-300 rounded-lg transition" placeholder="Nome da sua empresa">
                                 </div>
                                 <div>
                                     <label for="servico" class="block text-sm font-semibold mb-2" style="color: #0D1B2A;">Serviço de Interesse *</label>
-                                    <select id="servico" name="servico" required class="w-full px-4 py-3 border border-gray-300 rounded-lg transition" style="outline: none;">
+                                    <select id="servico" name="servico" required class="w-full px-4 py-3 border border-gray-300 rounded-lg transition">
                                         <option value="">Selecione um serviço</option>
                                         <option value="Transporte Rodoviário">Transporte Rodoviário</option>
                                         <option value="Armazenagem">Armazenagem</option>
@@ -793,7 +793,7 @@
                                 </div>
                                 <div>
                                     <label for="mensagem" class="block text-sm font-semibold mb-2" style="color: #0D1B2A;">Mensagem *</label>
-                                    <textarea id="mensagem" name="mensagem" required rows="5" class="w-full px-4 py-3 border border-gray-300 rounded-lg transition resize-none" style="outline: none;" placeholder="Conte-nos mais detalhes sobre sua necessidade..."></textarea>
+                                    <textarea id="mensagem" name="mensagem" required rows="5" class="w-full px-4 py-3 border border-gray-300 rounded-lg transition resize-none" placeholder="Conte-nos mais detalhes sobre sua necessidade..."></textarea>
                                 </div>
                                 <div class="pt-4">
                                     <button type="submit" id="btnEnviar" class="w-full text-white font-bold py-4 px-6 rounded-lg transition duration-300 transform hover:scale-105 shadow-lg" style="background-color: #66CC33;">
@@ -1055,8 +1055,8 @@
         // --- CONFIGURAÇÃO DE EMAIL (Aqui tu edita o email que recebe os contatos) ---
         const EMAIL_CONTATO = 'comercial@marilog.com.br'; // Muda aqui se precisar
 
-        // --- URL do Google Apps Script (Cola a URL depois de implantar o script) ---
-        const WEBHOOK_GOOGLE = 'SEU_WEBHOOK_AQUI';
+        // --- URL do Google Apps Script (JÁ CONFIGURADA!) ---
+        const WEBHOOK_GOOGLE = 'https://script.google.com/macros/s/AKfycbyhNnQeGRpAZgqucLwyQamK6P45xfNvtYvf3kYg3DP9WAEbelwxzf0T2UE2Hk0cxJbA_Q/exec';
 
         // === Máscara de telefone - deixa o número bonito enquanto digita ===
         const telefoneInput = document.getElementById('telefone');
@@ -1071,7 +1071,6 @@
                 e.target.value = value;
             });
 
-            // Adiciona efeito de foco verde Marilog
             telefoneInput.addEventListener('focus', function() {
                 this.style.borderColor = '#66CC33';
                 this.style.boxShadow = '0 0 0 3px rgba(102, 204, 51, 0.1)';
@@ -1082,7 +1081,7 @@
             });
         }
 
-        // === Adiciona efeito visual nos inputs ===
+        // === Efeito visual nos inputs ===
         const inputs = document.querySelectorAll('#formContato input, #formContato select, #formContato textarea');
         inputs.forEach(input => {
             input.addEventListener('focus', function() {
@@ -1104,12 +1103,10 @@
             formContato.addEventListener('submit', async function(e) {
                 e.preventDefault();
 
-                // Desabilita o botão pra ninguém ficar spamando
                 btnEnviar.disabled = true;
                 btnEnviar.innerHTML = 'Enviando...';
                 btnEnviar.style.backgroundColor = '#B0B3B5';
 
-                // Pega os dados do form
                 const formData = {
                     tipo: 'Contato',
                     nome: document.getElementById('nome').value,
@@ -1124,23 +1121,21 @@
                 try {
                     let sucessoGoogle = false;
 
-                    // 1️⃣ Envia pro Google Planilhas (CRM)
-                    if (WEBHOOK_GOOGLE !== 'SEU_WEBHOOK_AQUI') {
-                        try {
-                            await fetch(WEBHOOK_GOOGLE, {
-                                method: 'POST',
-                                mode: 'no-cors',
-                                headers: {'Content-Type': 'application/json'},
-                                body: JSON.stringify(formData)
-                            });
-                            sucessoGoogle = true;
-                            console.log('Dados salvos no CRM');
-                        } catch (err) {
-                            console.warn('Erro ao salvar no CRM:', err);
-                        }
+                    // Envia pro Google Planilhas (CRM)
+                    try {
+                        await fetch(WEBHOOK_GOOGLE, {
+                            method: 'POST',
+                            mode: 'no-cors',
+                            headers: {'Content-Type': 'application/json'},
+                            body: JSON.stringify(formData)
+                        });
+                        sucessoGoogle = true;
+                        console.log('Dados salvos no CRM');
+                    } catch (err) {
+                        console.warn('Erro ao salvar no CRM:', err);
                     }
 
-                    // 2️⃣ Envia pro email via FormSubmit
+                    // Envia pro email via FormSubmit
                     const responseEmail = await fetch('https://formsubmit.co/ajax/' + EMAIL_CONTATO, {
                         method: 'POST',
                         headers: {
@@ -1178,7 +1173,6 @@
             });
         }
 
-        // === Mostra mensagem de sucesso ou erro ===
         function mostrarMensagem(texto, tipo) {
             mensagemStatus.textContent = texto;
             mensagemStatus.classList.remove('hidden', 'bg-green-100', 'text-green-700', 'bg-red-100', 'text-red-700');
@@ -1194,7 +1188,6 @@
             setTimeout(() => mensagemStatus.classList.add('hidden'), 6000);
         }
 
-        // === Validação em tempo real ===
         const emailInput = document.getElementById('email');
         if (emailInput) {
             emailInput.addEventListener('blur', function() {
@@ -1210,4 +1203,3 @@
 
 </body>
 </html>
-
