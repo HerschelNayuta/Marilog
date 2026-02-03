@@ -1055,7 +1055,7 @@
 
     const CONFIG = {
         email: 'comercial@marilog.com.br',
-        webhook: 'https://script.google.com/macros/s/AKfycbwojcm1pPfTTEJN0C8y2TjNYrxzsw2rI3YdPn0BQ07JY0emA7uI302RGegIMy6ed-LlNA/exec'
+        webhook: 'https://script.google.com/macros/s/AKfycbwId_4wT1cJgQLnW-UXOko-uvQS7VenWA3YnkjuiNTU83VPX0Wdzy4npJuRP6MKRq0swA/exec'
     };
 
     function inicializarFormulario() {
@@ -1132,8 +1132,7 @@
             console.log('✅ Enviado para Google Sheets');
 
             // FormSubmit
-            const resp = await fetch('https://formsubmit.co/ajax/' + CONFIG.email, {
-                method: 'POST',
+            const resp = 
                 headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
                 body: JSON.stringify({
                     Nome: dados.nome,
