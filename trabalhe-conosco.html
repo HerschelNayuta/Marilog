@@ -16,426 +16,417 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
     <script>
-        // ═══════════════════════════════════════════════════════════════
-        // MOBILE MENU TOGGLE
-        // ═══════════════════════════════════════════════════════════════
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'marilog-blue': '#0D1B2A',
+                        'marilog-green': '#66CC33',
+                        'marilog-gray': '#B0B3B5',
+                    },
+                    fontFamily: {
+                        'heading': ['Montserrat', 'sans-serif'],
+                        'body': ['Roboto', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        * {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #0D1B2A 0%, #1a2d42 100%);
+        }
+    </style>
+</head>
+
+<body class="bg-white">
+
+    <!-- Navigation -->
+<header class="fixed w-full top-0 z-50 bg-marilog-blue shadow-lg">
+        <nav class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <!-- Logo -->
+                <div class="flex items-center"><img src="Logo_Branca.png" alt="Marilog" style="height: 42px;"></div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html" class="nav-link text-white hover:text-marilog-green">Início</a>
+                    <a href="index.html" class="nav-link text-white hover:text-marilog-green">Quem Somos</a>
+                    <a href="index.html" class="nav-link text-white hover:text-marilog-green">Diferenciais</a>
+                    <a href="index.html" class="nav-link text-white hover:text-marilog-green">Serviços</a>
+                    <a href="index.html" class="nav-link text-white hover:text-marilog-green">Tecnologia</a>
+                    <a href="index.html#contato" class="nav-link text-white hover:text-marilog-green">Contato</a>
+                    <a href="trabalhe-conosco.html" class="nav-link text-white hover:text-marilog-green">Trabalhe Conosco</a>
+                </div>
+
+                <!-- CTA Button Desktop -->
+                <a href="index.html#contato" class="hidden md:block bg-marilog-green text-white px-6 py-2 rounded-full font-semibold hover:bg-green-600 transition">
+                    Solicite uma Cotação
+                </a>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden text-white focus:outline-none">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="mobile-menu md:hidden mt-4">
+                <div class="flex flex-col space-y-4">
+                    <a href="index.html" class="text-white hover:text-marilog-green">Início</a>
+                    <a href="index.html#quem-somos" class="text-white hover:text-marilog-green">Quem Somos</a>
+                    <a href="index.html#diferenciais" class="text-white hover:text-marilog-green">Diferenciais</a>
+                    <a href="index.html#servicos" class="text-white hover:text-marilog-green">Serviços</a>
+                    <a href="index.html#tecnologia" class="text-white hover:text-marilog-green">Tecnologia</a>
+                    <a href="index.html#contato" class="text-white hover:text-marilog-green">Contato</a>
+                    <a href="index.html#contato" class="bg-marilog-green text-white px-6 py-2 rounded-full text-center font-semibold">
+                        Solicite uma Cotação
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient pt-32 pb-20">
+        <div class="container mx-auto px-6">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-6xl font-heading font-bold text-white mb-6">
+                    <i class="fas fa-briefcase text-marilog-green mr-4"></i>
+                    Trabalhe Conosco
+                </h1>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    Faça parte do nosso time! Envie seu currículo e venha crescer com a Marilog.
+                </p>
+                <div class="w-20 h-1 bg-marilog-green mx-auto mt-8"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Form Section -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto">
+                <div class="bg-gray-50 rounded-2xl p-6 shadow-xl" style="min-height: 900px;">
+                    
+                        <!-- FORMULÁRIO TRABALHE CONOSCO -->
+                        <div class="bg-gray-50 rounded-2xl p-8 shadow-2xl">
+                            <h3 class="font-heading font-bold text-3xl mb-6 text-center" style="color: #0D1B2A;">
+                                <i class="fas fa-briefcase text-green-500 mr-2"></i>Envie seu Currículo
+                            </h3>
+                            <p class="text-center mb-8 text-gray-600">Preencha o formulário abaixo e anexe seu CV</p>
+
+                            <form id="formTrabalhe" class="space-y-5" enctype="multipart/form-data">
+                                <div>
+                                    <label for="nomecv" class="block text-sm font-semibold mb-2" style="color: #0D1B2A;">Nome Completo *</label>
+                                    <input type="text" id="nomecv" name="nomecv" required 
+                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg transition focus:outline-none focus:border-green-500" 
+                                           placeholder="Seu nome completo">
+                                </div>
+
+                                <div>
+                                    <label for="emailcv" class="block text-sm font-semibold mb-2" style="color: #0D1B2A;">E-mail *</label>
+                                    <input type="email" id="emailcv" name="emailcv" required 
+                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg transition focus:outline-none focus:border-green-500" 
+                                           placeholder="seu.email@exemplo.com">
+                                </div>
+
+                                <div>
+                                    <label for="telefonecv" class="block text-sm font-semibold mb-2" style="color: #0D1B2A;">Telefone/WhatsApp *</label>
+                                    <input type="tel" id="telefonecv" name="telefonecv" required 
+                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg transition focus:outline-none focus:border-green-500" 
+                                           placeholder="(00) 00000-0000" maxlength="15">
+                                </div>
+
+                                <div>
+                                    <label for="cargo" class="block text-sm font-semibold mb-2" style="color: #0D1B2A;">Cargo de Interesse *</label>
+                                    <select id="cargo" name="cargo" required 
+                                            class="w-full px-4 py-3 border border-gray-300 rounded-lg transition focus:outline-none focus:border-green-500">
+                                        <option value="">Selecione uma área</option>
+                                        <option value="Motorista">Motorista</option>
+                                        <option value="Operacional/Logística">Operacional/Logística</option>
+                                        <option value="Administrativo">Administrativo</option>
+                                        <option value="Vendas/Comercial">Vendas/Comercial</option>
+                                        <option value="TI/Tecnologia">TI/Tecnologia</option>
+                                        <option value="Manutenção">Manutenção</option>
+                                        <option value="Outro">Outro</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label for="linkedin" class="block text-sm font-semibold mb-2" style="color: #0D1B2A;">LinkedIn (opcional)</label>
+                                    <input type="url" id="linkedin" name="linkedin" 
+                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg transition focus:outline-none focus:border-green-500" 
+                                           placeholder="https://linkedin.com/in/seu-perfil">
+                                </div>
+
+                                <div>
+                                    <label for="curriculo" class="block text-sm font-semibold mb-2" style="color: #0D1B2A;">
+                                        <i class="fas fa-file-pdf text-green-500 mr-1"></i>Anexar Currículo (PDF, DOC, DOCX - Máx 5MB) *
+                                    </label>
+                                    <input type="file" id="curriculo" name="curriculo" accept=".pdf,.doc,.docx" required 
+                                           class="w-full px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg transition cursor-pointer hover:border-green-500" 
+                                           style="background-color: #F9FAFB;">
+                                    <p class="text-xs mt-2 text-gray-500">
+                                        <i class="fas fa-info-circle"></i> Formatos aceitos: PDF, DOC ou DOCX. Tamanho máximo: 5MB
+                                    </p>
+                                    <div id="fileInfo" class="hidden mt-2 text-sm text-green-600"></div>
+                                </div>
+
+                                <div>
+                                    <label for="mensagemcv" class="block text-sm font-semibold mb-2" style="color: #0D1B2A;">Mensagem Adicional (opcional)</label>
+                                    <textarea id="mensagemcv" name="mensagemcv" rows="4" 
+                                              class="w-full px-4 py-3 border border-gray-300 rounded-lg transition resize-none focus:outline-none focus:border-green-500" 
+                                              placeholder="Conte um pouco sobre você e sua experiência..."></textarea>
+                                </div>
+
+                                <div class="pt-4">
+                                    <button type="submit" id="btnEnviarCV" 
+                                            class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-6 rounded-lg transition duration-300 transform hover:scale-105 shadow-lg">
+                                        <i class="fas fa-paper-plane mr-2"></i>Enviar Currículo
+                                    </button>
+                                </div>
+
+                                <div id="mensagemStatusCV" class="hidden mt-4 p-4 rounded-lg text-center font-semibold"></div>
+                            </form>
+                        </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+<footer class="bg-marilog-blue py-8">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0"><img src="Logo_Branca.png" alt="Marilog" style="height: 55px;"></div>
+
+                <div class="text-marilog-gray text-center md:text-right">
+                    <p>&copy; 2024 Marilog Transportes e Logística. Todos os direitos reservados.</p>
+                    <p class="mt-2">Soluções logísticas completas com tecnologia, segurança e eficiência</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Float Button -->
+    <a href="https://wa.me/5547992177018" target="_blank" class="whatsapp-float" title="Fale conosco no WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- JavaScript -->
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <!-- Mobile Menu Toggle -->
+    <script>
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
 
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('active');
-        });
-
-        // Close mobile menu when clicking on a link
-        const mobileLinks = mobileMenu.querySelectorAll('a');
-        mobileLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.remove('active');
+        if (mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('active');
             });
-        });
+        }
+    </script>
 
-        // ═══════════════════════════════════════════════════════════════
-        // SCROLL REVEAL ANIMATION
-        // ═══════════════════════════════════════════════════════════════
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
+    <!-- Scroll Reveal -->
+    <script>
+        const observer = new IntersectionObserver(entries => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('active');
                 }
             });
-        }, observerOptions);
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
-        document.querySelectorAll('.section-reveal').forEach(el => {
-            observer.observe(el);
-        });
-
-        // ═══════════════════════════════════════════════════════════════
-        // SMOOTH SCROLL FOR NAVIGATION LINKS
-        // ═══════════════════════════════════════════════════════════════
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    const offset = 80; // Header height
-                    const targetPosition = target.offsetTop - offset;
-                    window.scrollTo({
-                        top: targetPosition,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-
-        // ═══════════════════════════════════════════════════════════════
-        // FORMULÁRIO - MÁSCARA DE TELEFONE
-        // ═══════════════════════════════════════════════════════════════
-        const telefoneInput = document.getElementById('telefone');
-        telefoneInput.addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            if (value.length <= 11) {
-                value = value.replace(/^(\d{2})(\d)/g, '($1) $2');
-                value = value.replace(/(\d)(\d{4})$/, '$1-$2');
-                e.target.value = value;
-            }
-        });
-
-        // ═══════════════════════════════════════════════════════════════
-        // FORMULÁRIO - ELEMENTOS
-        // ═══════════════════════════════════════════════════════════════
-        const contactForm = document.getElementById('contact-form');
-        const submitBtn = document.getElementById('submit-btn');
-        const formLoading = document.getElementById('form-loading');
-        const formSuccess = document.getElementById('form-success');
-        const formError = document.getElementById('form-error');
-
-        // ═══════════════════════════════════════════════════════════════
-        // FORMULÁRIO - FUNÇÕES DE VALIDAÇÃO
-        // ═══════════════════════════════════════════════════════════════
-        function validateEmail(email) {
-            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return re.test(email);
-        }
-
-        function validatePhone(phone) {
-            const cleaned = phone.replace(/\D/g, '');
-            return cleaned.length >= 10 && cleaned.length <= 11;
-        }
-
-        function showError(input, message) {
-            input.classList.add('border-red-500');
-            input.classList.remove('border-gray-300');
-            const errorMsg = input.parentElement.querySelector('.error-msg');
-            if (errorMsg) {
-                errorMsg.textContent = message;
-                errorMsg.classList.remove('hidden');
-            }
-        }
-
-        function clearError(input) {
-            input.classList.remove('border-red-500');
-            input.classList.add('border-gray-300');
-            const errorMsg = input.parentElement.querySelector('.error-msg');
-            if (errorMsg) {
-                errorMsg.classList.add('hidden');
-            }
-        }
-
-        // Clear errors on input
-        document.querySelectorAll('#contact-form input, #contact-form textarea').forEach(input => {
-            input.addEventListener('input', () => clearError(input));
-            input.addEventListener('focus', () => clearError(input));
-        });
-
-        // ═══════════════════════════════════════════════════════════════
-        // FORMULÁRIO - SUBMISSÃO
-        // ═══════════════════════════════════════════════════════════════
-        // Form submission handler
-        contactForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-
-            // Validate all fields
-            const nome = document.getElementById('nome').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const telefone = document.getElementById('telefone').value.trim();
-            const empresa = document.getElementById('empresa').value.trim();
-            const mensagem = document.getElementById('mensagem').value.trim();
-
-            if (!nome || !email || !telefone || !empresa || !mensagem) {
-                alert('Por favor, preencha todos os campos obrigatórios.');
-                return;
-            }
-
-            // Email validation
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                alert('Por favor, insira um email válido.');
-                return;
-            }
-
-            // Phone validation (Brazilian format)
-            const phoneRegex = /^\(\d{2}\)\s\d{5}-\d{4}$/;
-            if (!phoneRegex.test(telefone)) {
-                alert('Por favor, insira um telefone válido no formato (XX) XXXXX-XXXX.');
-                return;
-            }
-
-            // Show loading state
-            const submitBtn = this.querySelector('button[type="submit"]');
-            const formLoading = document.getElementById('form-loading');
-            const formSuccess = document.getElementById('form-success');
-            const originalBtnText = submitBtn.innerHTML;
-
-            submitBtn.disabled = true;
-            formLoading.classList.remove('hidden');
-            formSuccess.classList.add('hidden');
-
-            try {
-                // Prepare form data for both submissions
-                const formData = new FormData(this);
-
-                // 1. Send to Google Sheets webhook
-                const webhookUrl = document.getElementById('webhook_url').value;
-                if (webhookUrl) {
-                    await fetch(webhookUrl, {
-                        method: 'POST',
-                        mode: 'no-cors',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            nome: nome,
-                            email: email,
-                            telefone: telefone,
-                            empresa: empresa,
-                            mensagem: mensagem,
-                            timestamp: new Date().toISOString()
-                        })
-                    });
-                }
-
-                // 2. Send to FormSubmit via AJAX (without redirect)
-                const formSubmitUrl = 'https://formsubmit.co/comercial@marilog.com.br';
-                await fetch(formSubmitUrl, {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                }).catch(() => {
-                    // FormSubmit may block AJAX, but that's OK - the webhook works
-                    console.log('FormSubmit AJAX submission attempted');
-                });
-
-                // Show success message
-                formLoading.classList.add('hidden');
-                formSuccess.classList.remove('hidden');
-
-                // Reset form after 3 seconds
-                setTimeout(() => {
-                    contactForm.reset();
-                    formSuccess.classList.add('hidden');
-                    submitBtn.disabled = false;
-                }, 3000);
-
-            } catch (error) {
-                console.error('Error:', error);
-                formLoading.classList.add('hidden');
-                alert('Ocorreu um erro ao enviar a mensagem. Por favor, tente novamente.');
-                submitBtn.disabled = false;
-            }
-        });
+        document.querySelectorAll('.section-reveal').forEach(el => observer.observe(el));
     </script>
 
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"9c696dac89d09da8","serverTiming":{"name":{"cfExtPri":true,"cfEdge":true,"cfOrigin":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"version":"2025.9.1","token":"4edd5f8ec12a48cfa682ab8261b80a79"}' crossorigin="anonymous"></script>
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"9c76c7720858f8e9","serverTiming":{"name":{"cfExtPri":true,"cfEdge":true,"cfOrigin":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"version":"2025.9.1","token":"4edd5f8ec12a48cfa682ab8261b80a79"}' crossorigin="anonymous"></script>
-
-    <!-- Botão Voltar ao Topo -->
-    <button id="voltarTopo" class="fixed bottom-24 right-6 bg-[#0D1B2A] text-white w-12 h-12 rounded-full shadow-2xl hidden hover:bg-[#66CC33] transition-all z-40" aria-label="Voltar ao topo">
-        <i class="fas fa-arrow-up"></i>
-    </button>
-
+    <!-- FORMULÁRIO TRABALHE CONOSCO - CORRIGIDO E FUNCIONAL -->
     <script>
     (function() {
-        const btn = document.getElementById('voltarTopo');
-        if (btn) {
-            window.addEventListener('scroll', () => {
-                btn.classList.toggle('hidden', window.scrollY < 400);
-            });
-            btn.addEventListener('click', () => {
-                window.scrollTo({top: 0, behavior: 'smooth'});
-            });
+        'use strict';
+
+        const CONFIG = {
+            webhook: 'https://script.google.com/macros/s/AKfycbyJx6d_1AglLxdG_RFDAO0nrl9teNXAACpNEkWNR0pektpT2DnhAHlGWb_zEhiuUV_Acw/exec',
+            maxFileSize: 5 * 1024 * 1024,
+            allowedExtensions: ['pdf', 'doc', 'docx']
+        };
+
+        function init() {
+            const form = document.getElementById('formTrabalhe');
+            if (!form) {
+                console.warn('Formulário não encontrado');
+                return;
+            }
+
+            console.log('✅ Formulário CV inicializado');
+
+            // Honeypot
+            const honeypot = document.createElement('input');
+            honeypot.type = 'text';
+            honeypot.name = '_gotcha';
+            honeypot.style.cssText = 'display:none;position:absolute;left:-9999px;';
+            honeypot.tabIndex = -1;
+            form.appendChild(honeypot);
+
+            // Máscara telefone
+            const tel = document.getElementById('telefonecv');
+            if (tel) {
+                tel.addEventListener('input', function(e) {
+                    let v = e.target.value.replace(/\D/g, '');
+                    if (v.length <= 11) {
+                        v = v.length <= 10 
+                            ? v.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3')
+                            : v.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+                    }
+                    e.target.value = v;
+                });
+            }
+
+            // Validação arquivo
+            const fileInput = document.getElementById('curriculo');
+            const fileInfo = document.getElementById('fileInfo');
+
+            if (fileInput) {
+                fileInput.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (!file) return;
+
+                    const ext = file.name.split('.').pop().toLowerCase();
+
+                    if (!CONFIG.allowedExtensions.includes(ext)) {
+                        alert('⚠️ Formato inválido! Use: PDF, DOC ou DOCX');
+                        e.target.value = '';
+                        if (fileInfo) fileInfo.classList.add('hidden');
+                        return;
+                    }
+
+                    if (file.size > CONFIG.maxFileSize) {
+                        alert('⚠️ Arquivo muito grande! Máximo: 5MB');
+                        e.target.value = '';
+                        if (fileInfo) fileInfo.classList.add('hidden');
+                        return;
+                    }
+
+                    if (fileInfo) {
+                        fileInfo.innerHTML = '<i class="fas fa-check-circle"></i> Arquivo válido: ' + 
+                                            file.name + ' (' + (file.size / 1024).toFixed(0) + ' KB)';
+                        fileInfo.classList.remove('hidden');
+                    }
+                });
+            }
+
+            form.addEventListener('submit', enviarFormulario);
+        }
+
+        async function enviarFormulario(e) {
+            e.preventDefault();
+
+            const honeypotField = document.querySelector('[name="_gotcha"]');
+            if (honeypotField && honeypotField.value !== '') {
+                return false;
+            }
+
+            const btn = document.getElementById('btnEnviarCV');
+            const status = document.getElementById('mensagemStatusCV');
+
+            if (!btn) return;
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Enviando...';
+            btn.style.backgroundColor = '#9CA3AF';
+
+            const fileInput = document.getElementById('curriculo');
+            const arquivo = fileInput?.files[0];
+
+            const dados = {
+                tipo: 'Curriculo',
+                nome: document.getElementById('nomecv')?.value || '',
+                email: document.getElementById('emailcv')?.value || '',
+                telefone: document.getElementById('telefonecv')?.value || '',
+                cargo: document.getElementById('cargo')?.value || '',
+                linkedin: document.getElementById('linkedin')?.value || 'Não informado',
+                mensagem: document.getElementById('mensagemcv')?.value || 'Nenhuma',
+                arquivo: arquivo ? arquivo.name : 'Sem arquivo',
+                tamanhoArquivo: arquivo ? (arquivo.size / 1024).toFixed(0) + ' KB' : '0 KB',
+                data: new Date().toLocaleString('pt-BR')
+            };
+
+            try {
+                // Google Sheets
+                await fetch(CONFIG.webhook, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(dados)
+                });
+
+                // FormSubmit (anexo)
+                const formData = new FormData(document.getElementById('formTrabalhe'));
+                formData.append('_subject', '💼 Novo CV: ' + dados.cargo + ' - ' + dados.nome);
+                formData.append('_template', 'table');
+                formData.append('_captcha', 'false');
+
+                await fetch('https://formsubmit.co/comercial@marilog.com.br', {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: formData
+                });
+
+                mostrarStatus('✅ Currículo enviado com sucesso! Entraremos em contato em breve. 🎉', 'sucesso');
+
+                document.getElementById('formTrabalhe').reset();
+                const fileInfoDiv = document.getElementById('fileInfo');
+                if (fileInfoDiv) fileInfoDiv.classList.add('hidden');
+
+            } catch (erro) {
+                console.error('Erro:', erro);
+                mostrarStatus('⚠️ Erro ao enviar. Tente novamente ou envie para: comercial@marilog.com.br', 'erro');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-paper-plane mr-2"></i>Enviar Currículo';
+                btn.style.backgroundColor = '#10B981';
+            }
+        }
+
+        function mostrarStatus(texto, tipo) {
+            const status = document.getElementById('mensagemStatusCV');
+            if (!status) return;
+
+            status.textContent = texto;
+            status.classList.remove('hidden');
+            status.style.backgroundColor = tipo === 'sucesso' ? '#10B981' : '#EF4444';
+            status.style.color = 'white';
+            status.style.padding = '1rem';
+            status.style.borderRadius = '0.5rem';
+
+            setTimeout(() => status.classList.add('hidden'), 8000);
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
         }
     })();
     </script>
 
-<script>
-// FORMULÁRIO TRABALHE CONOSCO - VERSÃO OTIMIZADA
-(function() {
-    'use strict';
-
-    const CONFIG = {
-        webhook: 'https://script.google.com/macros/s/AKfycbyJx6d_1AglLxdG_RFDAO0nrl9teNXAACpNEkWNR0pektpT2DnhAHlGWb_zEhiuUV_Acw/exec',
-        maxFileSize: 5 * 1024 * 1024, // 5MB
-        allowedExtensions: ['pdf', 'doc', 'docx'],
-        production: true
-    };
-
-    const log = (...args) => !CONFIG.production && console.log(...args);
-
-    function init() {
-        const form = document.getElementById('formTrabalhe');
-        if (!form) return log('❌ Form não encontrado');
-
-        log('✅ Formulário CV inicializado');
-
-        // Honeypot
-        const honeypot = document.createElement('input');
-        honeypot.type = 'text';
-        honeypot.name = '_gotcha';
-        honeypot.style.display = 'none';
-        honeypot.tabIndex = -1;
-        form.appendChild(honeypot);
-
-        // Máscara telefone
-        const tel = document.getElementById('telefonecv');
-        if (tel) {
-            tel.addEventListener('input', e => {
-                let v = e.target.value.replace(/\D/g, '');
-                if (v.length <= 11) {
-                    v = v.length <= 10 
-                        ? v.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3')
-                        : v.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
-                }
-                e.target.value = v;
-            });
-        }
-
-        // Validação arquivo
-        const fileInput = document.getElementById('curriculo');
-        const fileInfo = document.getElementById('fileInfo');
-
-        if (fileInput) {
-            fileInput.addEventListener('change', e => {
-                const file = e.target.files[0];
-                if (!file) return;
-
-                const ext = file.name.split('.').pop().toLowerCase();
-
-                // Validar extensão
-                if (!CONFIG.allowedExtensions.includes(ext)) {
-                    alert(`⚠️ Formato inválido! Use: ${CONFIG.allowedExtensions.join(', ').toUpperCase()}`);
-                    e.target.value = '';
-                    fileInfo.classList.add('hidden');
-                    return;
-                }
-
-                // Validar tamanho
-                if (file.size > CONFIG.maxFileSize) {
-                    alert(`⚠️ Arquivo muito grande! Máximo: ${(CONFIG.maxFileSize / 1024 / 1024).toFixed(0)}MB`);
-                    e.target.value = '';
-                    fileInfo.classList.add('hidden');
-                    return;
-                }
-
-                // Mostrar info do arquivo
-                fileInfo.innerHTML = `<i class="fas fa-check-circle"></i> Arquivo válido: ${file.name} (${(file.size / 1024).toFixed(0)} KB)`;
-                fileInfo.classList.remove('hidden');
-                log('✅ Arquivo válido:', file.name);
-            });
-        }
-
-        form.addEventListener('submit', handleSubmit);
-    }
-
-    async function handleSubmit(e) {
-        e.preventDefault();
-
-        // Verificar honeypot
-        if (document.querySelector('[name="_gotcha"]')?.value) {
-            log('🤖 Bot detectado!');
-            return false;
-        }
-
-        const btn = document.getElementById('btnEnviarCV');
-        const status = document.getElementById('mensagemStatusCV');
-
-        btn.disabled = true;
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Enviando...';
-        btn.style.backgroundColor = '#B0B3B5';
-
-        const fileInput = document.getElementById('curriculo');
-        const arquivo = fileInput.files[0];
-
-        const dados = {
-            tipo: 'Curriculo',
-            nome: document.getElementById('nomecv').value,
-            email: document.getElementById('emailcv').value,
-            telefone: document.getElementById('telefonecv').value,
-            cargo: document.getElementById('cargo').value,
-            linkedin: document.getElementById('linkedin').value || 'Não informado',
-            mensagem: document.getElementById('mensagemcv').value || 'Nenhuma mensagem adicional',
-            arquivo: arquivo ? arquivo.name : 'Sem arquivo',
-            tamanhoArquivo: arquivo ? `${(arquivo.size / 1024).toFixed(0)} KB` : '0 KB',
-            data: new Date().toLocaleString('pt-BR'),
-            origem: window.location.href
-        };
-
-        try {
-            // 1. Google Sheets (dados + nome arquivo)
-            log('📊 Enviando para Google Sheets...');
-            const respGoogle = await fetch(CONFIG.webhook, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(dados)
-            });
-
-            if (!respGoogle.ok) throw new Error('Erro Google Sheets');
-            log('✅ Dados salvos no Sheets');
-
-            // 2. FormSubmit (anexo CV)
-            log('📧 Enviando CV por email...');
-            const formData = new FormData(document.getElementById('formTrabalhe'));
-            formData.append('_subject', `💼 Novo CV: ${dados.cargo} - ${dados.nome}`);
-            formData.append('_template', 'table');
-            formData.append('_captcha', 'false');
-
-            const respEmail = await fetch('https://formsubmit.co/comercial@marilog.com.br', {
-                method: 'POST',
-                body: formData
-            });
-
-            if (!respEmail.ok) throw new Error('Erro FormSubmit');
-            log('✅ Email enviado');
-
-            // Google Analytics event
-            if (typeof gtag !== 'undefined') {
-                gtag('event', 'cv_submit', {
-                    event_category: 'trabalhe_conosco',
-                    event_label: dados.cargo
-                });
-            }
-
-            showStatus('✅ Currículo enviado com sucesso! Entraremos em contato em breve. 🎉', 'success');
-            document.getElementById('formTrabalhe').reset();
-            document.getElementById('fileInfo').classList.add('hidden');
-
-        } catch (erro) {
-            log('❌ Erro:', erro);
-            showStatus('⚠️ Erro ao enviar. Tente novamente ou envie por email: comercial@marilog.com.br', 'error');
-        } finally {
-            btn.disabled = false;
-            btn.innerHTML = '<i class="fas fa-paper-plane mr-2"></i>Enviar Currículo';
-            btn.style.backgroundColor = '#66CC33';
-        }
-    }
-
-    function showStatus(texto, tipo) {
-        const status = document.getElementById('mensagemStatusCV');
-        if (!status) return;
-
-        status.textContent = texto;
-        status.classList.remove('hidden');
-        status.style.backgroundColor = tipo === 'success' ? '#66CC33' : '#EF4444';
-        status.style.color = 'white';
-        status.style.padding = '1rem';
-        status.style.borderRadius = '0.5rem';
-
-        setTimeout(() => status.classList.add('hidden'), 8000);
-    }
-
-    document.readyState === 'loading' 
-        ? document.addEventListener('DOMContentLoaded', init)
-        : init();
-})();
-</script>
 
 </body>
-
 </html>
