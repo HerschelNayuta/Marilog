@@ -1055,7 +1055,7 @@
 
     const CONFIG = {
         email: 'comercial@marilog.com.br',
-        webhook: 'https://script.google.com/macros/s/AKfycbwId_4wT1cJgQLnW-UXOko-uvQS7VenWA3YnkjuiNTU83VPX0Wdzy4npJuRP6MKRq0swA/exec'
+        webhook: 'https://script.google.com/macros/s/AKfycbwojcm1pPfTTEJN0C8y2TjNYrxzsw2rI3YdPn0BQ07JY0emA7uI302RGegIMy6ed-LlNA/exec'
     };
 
     function inicializarFormulario() {
@@ -1132,7 +1132,8 @@
             console.log('✅ Enviado para Google Sheets');
 
             // FormSubmit
-            const resp = 
+            const resp = await fetch('https://formsubmit.co/ajax/' + CONFIG.email, {
+                method: 'POST',
                 headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
                 body: JSON.stringify({
                     Nome: dados.nome,
@@ -1185,5 +1186,104 @@
 
 })();
 </script>
+
+<script>
+// FORMULÁRIO HOME - SÓ GOOGLE (1 email bonitinho)
+(function() {
+    'use strict';
+
+    const CONFIG = {
+        webhook: 'https://script.google.com/macros/s/AKfycbyJx6d_1AglLxdG_RFDAO0nrl9teNXAACpNEkWNR0pektpT2DnhAHlGWb_zEhiuUV_Acw/exec'
+    };
+
+    function inicializarFormulario() {
+        const form = document.getElementById('formContatoMarilog');
+        if (!form) return console.log('Formulário não encontrado');
+
+        console.log('✅ Formulário inicializado');
+
+        const tel = document.getElementById('telefoneForm');
+        if (tel) {
+            tel.addEventListener('input', function(e) {
+                let v = e.target.value.replace(/\D/g, '');
+                if (v.length <= 11) {
+                    v = v.length <= 10 
+                        ? v.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3')
+                        : v.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+                }
+                e.target.value = v;
+            });
+        }
+
+        const inputs = form.querySelectorAll('input, select, textarea');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.style.borderColor = '#66CC33';
+                this.style.boxShadow = '0 0 0 3px rgba(102, 204, 51, 0.1)';
+            });
+            input.addEventListener('blur', function() {
+                this.style.borderColor = '#D1D5DB';
+                this.style.boxShadow = 'none';
+            });
+        });
+
+        form.addEventListener('submit', enviarFormulario);
+    }
+
+    async function enviarFormulario(e) {
+        e.preventDefault();
+        const btn = document.getElementById('btnEnviarMarilog');
+        const status = document.getElementById('statusMarilog');
+        btn.disabled = true;
+        btn.innerHTML = 'Enviando...';
+        btn.style.backgroundColor = '#B0B3B5';
+
+        const dados = {
+            tipo: 'Contato',
+            nome: document.getElementById('nomeForm').value,
+            email: document.getElementById('emailForm').value,
+            telefone: document.getElementById('telefoneForm').value,
+            empresa: document.getElementById('empresaForm').value || 'Não informado',
+            servico: document.getElementById('servicoForm').value,
+            mensagem: document.getElementById('mensagemForm').value,
+            data: new Date().toLocaleString('pt-BR')
+        };
+
+        try {
+            await fetch(CONFIG.webhook, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(dados)
+            });
+
+            mostrarStatus('✅ Enviado com sucesso! Te ligamos em breve.', 'sucesso');
+            document.getElementById('formContatoMarilog').reset();
+        } catch (erro) {
+            mostrarStatus('Erro no envio. Tenta de novo!', 'erro');
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = 'Enviar Solicitação';
+            btn.style.backgroundColor = '#66CC33';
+        }
+    }
+
+    function mostrarStatus(texto, tipo) {
+        const status = document.getElementById('statusMarilog');
+        if (!status) return;
+        status.textContent = texto;
+        status.classList.remove('hidden');
+        status.style.backgroundColor = tipo === 'sucesso' ? '#66CC33' : '#EF4444';
+        status.style.color = 'white';
+        setTimeout(() => status.classList.add('hidden'), 5000);
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', inicializarFormulario);
+    } else {
+        inicializarFormulario();
+    }
+})();
+</script>
+
 </body>
 </html>
