@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Importador de CT-e - Múltiplos Arquivos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 28px;
+            text-align: center;
+        }
+        
+        .selector-area {
+            background: #f0f4ff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .selector-label {
+            font-weight: bold;
+            color: #1e3a5f;
+            font-size: 16px;
+        }
+        
+        .sheet-selector {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .sheet-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+        }
+        
+        .sheet-option input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        .sheet-option label {
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            color: #2d3748;
+        }
+        
+        .sheet-option.marilog {
+            background: #e6f0ff;
+            border-color: #1e3a5f;
+        }
+        
+        .sheet-option.marilog.selected {
+            background: #1e3a5f;
+        }
+        
+        .sheet-option.marilog.selected label {
+            color: white;
+        }
+        
+        .sheet-option.jmr {
+            background: #fff0e6;
+            border-color: #764ba2;
+        }
+        
+        .sheet-option.jmr.selected {
+            background: #764ba2;
+        }
+        
+        .sheet-option.jmr.selected label {
+            color: white;
+        }
+        
+        .upload-area {
+            border: 3px dashed #cbd5e0;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            background: #f8fafc;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+        
+        .upload-area:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+        
+        .upload-area.dragover {
+            border-color: #4CAF50;
+            background: #e8f5e9;
+        }
+        
+        .file-list {
+            background: #f0f4ff;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #cbd5e0;
+        }
+        
+        .file-item:last-child {
+            border-bottom: none;
+        }
+        
+        .file-name {
+            font-weight: 500;
+            color: #2d3748;
+        }
+        
+        .file-size {
+            color: #718096;
+            font-size: 14px;
+            margin-left: 10px;
+        }
+        
+        .file-status {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .status-pending {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+        
+        .status-processing {
+            background: #feebc8;
+            color: #744210;
+        }
+        
+        .status-success {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+        
+        .status-error {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s ease;
+            margin-bottom: 15px;
+        }
+        
+        .button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .button-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+            margin-top: 10px;
+        }
+        
+        .summary {
+            background: #f7fafc;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+        
+        .summary-label {
+            color: #718096;
+            font-weight: 500;
+        }
+        
+        .summary-value {
+            color: #2d3748;
+            font-weight: bold;
+        }
+        
+        .summary-sheet {
+            margin-top: 15px;
+            padding: 10px;
+            background: #e6f0ff;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            color: #1e3a5f;
+        }
+        
+        .link-button {
+            background: none;
+            border: 2px solid #667eea;
+            color: #667eea;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s ease;
+            margin-top: 10px;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .link-button:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #a0aec0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📄 Importador de CT-e - Marilog</h1>
+        
+        <!-- 🔥 SELETOR DE ABAS -->
+        <div class="selector-area">
+            <span class="selector-label">📌 Enviar para:</span>
+            <div class="sheet-selector">
+                <div class="sheet-option marilog" id="optionMarilog" onclick="selectSheet('MARILOG')">
+                    <input type="radio" name="sheet" id="sheetMarilog" value="MARILOG" checked>
+                    <label for="sheetMarilog">📊 MARILOG</label>
+                </div>
+                <div class="sheet-option jmr" id="optionJmr" onclick="selectSheet('JMR')">
+                    <input type="radio" name="sheet" id="sheetJmr" value="JMR">
+                    <label for="sheetJmr">📈 JMR</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="upload-area" id="uploadArea">
+            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="17 8 12 3 7 8" />
+                <line x1="12" y1="3" x2="12" y2="15" />
+            </svg>
+            <div class="upload-text">Clique para selecionar ou arraste os arquivos XML</div>
+            <div class="upload-hint">Você pode selecionar MÚLTIPLOS arquivos .xml</div>
+        </div>
+        
+        <input type="file" id="fileInput" accept=".xml" multiple style="display: none;">
+        
+        <div class="file-list" id="fileList" style="display: none;">
+            <h3>📋 Arquivos Selecionados:</h3>
+            <div id="fileItems"></div>
+        </div>
+        
+        <div class="progress-bar" id="progressBar" style="display: none;">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        
+        <button class="button" id="uploadButton" disabled>
+            📤 Importar Todos os XMLs
+        </button>
+        
+        <button class="button button-secondary" id="clearButton" onclick="clearFiles()">
+            🗑️ Limpar Lista
+        </button>
+        
+        <div class="summary" id="summary" style="display: none;">
+            <h3>📊 Resumo da Importação</h3>
+            <div id="summaryContent"></div>
+            <div class="summary-sheet" id="summarySheet"></div>
+            <a href="https://docs.google.com/spreadsheets/d/1BVffBYyM-zmzHCl0YqeDpP0ax4pMSKx-Hiypbx_Z4Yk/edit" 
+               target="_blank" class="link-button">
+                🔗 Abrir Planilha
+            </a>
+        </div>
+        
+        <div class="footer">
+            ⚡ Os dados serão inseridos sequencialmente na planilha
+        </div>
+    </div>
+
+    <script>
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx5SwmmBFo6YoDFbeCZ1-sA0NJZnBp1wnuI9fdNYdsQahwFfQDPu-9bdH-EL2RzsVd9pQ/exec';
+        
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const fileList = document.getElementById('fileList');
+        const fileItems = document.getElementById('fileItems');
+        const uploadButton = document.getElementById('uploadButton');
+        const progressBar = document.getElementById('progressBar');
+        const progressFill = document.getElementById('progressFill');
+        const summary = document.getElementById('summary');
+        const summaryContent = document.getElementById('summaryContent');
+        const summarySheet = document.getElementById('summarySheet');
+        
+        let selectedFiles = [];
+        let results = [];
+        let selectedSheet = 'MARILOG'; // Padrão: MARILOG
+        
+        // 🔥 Função para selecionar a aba
+        function selectSheet(sheet) {
+            selectedSheet = sheet;
+            
+            // Atualizar estilo visual
+            const optionMarilog = document.getElementById('optionMarilog');
+            const optionJmr = document.getElementById('optionJmr');
+            const radioMarilog = document.getElementById('sheetMarilog');
+            const radioJmr = document.getElementById('sheetJmr');
+            
+            if (sheet === 'MARILOG') {
+                optionMarilog.classList.add('selected');
+                optionJmr.classList.remove('selected');
+                radioMarilog.checked = true;
+                radioJmr.checked = false;
+            } else {
+                optionJmr.classList.add('selected');
+                optionMarilog.classList.remove('selected');
+                radioJmr.checked = true;
+                radioMarilog.checked = false;
+            }
+            
+            console.log('📌 Aba selecionada:', sheet);
+        }
+        
+        uploadArea.addEventListener('click', () => fileInput.click());
+        
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+        
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+        
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            handleFiles(e.dataTransfer.files);
+        });
+        
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+        
+        function handleFiles(files) {
+            const xmlFiles = Array.from(files).filter(file => 
+                file.name.toLowerCase().endsWith('.xml')
+            );
+            
+            selectedFiles = [...selectedFiles, ...xmlFiles];
+            updateFileList();
+            uploadButton.disabled = selectedFiles.length === 0;
+        }
+        
+        function updateFileList() {
+            if (selectedFiles.length === 0) {
+                fileList.style.display = 'none';
+                return;
+            }
+            
+            fileList.style.display = 'block';
+            
+            let html = '';
+            selectedFiles.forEach((file, index) => {
+                const result = results.find(r => r.fileName === file.name);
+                let statusClass = 'status-pending';
+                let statusText = 'Aguardando';
+                
+                if (result) {
+                    if (result.success) {
+                        statusClass = 'status-success';
+                        statusText = `✅ Linha ${result.linha}`;
+                    } else {
+                        statusClass = 'status-error';
+                        statusText = '❌ Erro';
+                    }
+                }
+                
+                html += `
+                    <div class="file-item">
+                        <div>
+                            <span class="file-name">📄 ${file.name}</span>
+                            <span class="file-size">(${(file.size / 1024).toFixed(2)} KB)</span>
+                        </div>
+                        <span class="file-status ${statusClass}">${statusText}</span>
+                    </div>
+                `;
+            });
+            
+            fileItems.innerHTML = html;
+        }
+        
+        function clearFiles() {
+            selectedFiles = [];
+            results = [];
+            fileInput.value = '';
+            updateFileList();
+            uploadButton.disabled = true;
+            summary.style.display = 'none';
+            progressBar.style.display = 'none';
+        }
+        
+        async function uploadFile(file) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                
+                reader.onload = async (e) => {
+                    const xmlContent = e.target.result;
+                    
+                    const formData = new URLSearchParams();
+                    formData.append('xmlfile', xmlContent);
+                    formData.append('filename', file.name);
+                    formData.append('sheet', selectedSheet); // 🔥 Envia a aba selecionada
+                    
+                    try {
+                        const response = await fetch(APPS_SCRIPT_URL, {
+                            method: 'POST',
+                            body: formData,
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded'
+                            }
+                        });
+                        
+                        const text = await response.text();
+                        try {
+                            const result = JSON.parse(text);
+                            resolve({
+                                fileName: file.name,
+                                success: result.success || false,
+                                linha: result.linha || null,
+                                error: result.error || null
+                            });
+                        } catch {
+                            resolve({
+                                fileName: file.name,
+                                success: false,
+                                error: 'Resposta inválida do servidor'
+                            });
+                        }
+                    } catch (error) {
+                        resolve({
+                            fileName: file.name,
+                            success: false,
+                            error: error.message
+                        });
+                    }
+                };
+                
+                reader.readAsText(file);
+            });
+        }
+        
+        async function uploadAll() {
+            if (selectedFiles.length === 0) return;
+            
+            uploadButton.disabled = true;
+            progressBar.style.display = 'block';
+            results = [];
+            
+            let successCount = 0;
+            let errorCount = 0;
+            let linhas = [];
+            
+            for (let i = 0; i < selectedFiles.length; i++) {
+                const file = selectedFiles[i];
+                
+                // Atualizar progresso
+                const progress = (i / selectedFiles.length) * 100;
+                progressFill.style.width = progress + '%';
+                
+                // Atualizar status
+                const fileItems = document.querySelectorAll('.file-item');
+                if (fileItems[i]) {
+                    const statusSpan = fileItems[i].querySelector('.file-status');
+                    statusSpan.className = 'file-status status-processing';
+                    statusSpan.textContent = 'Processando...';
+                }
+                
+                // Upload
+                const result = await uploadFile(file);
+                results.push(result);
+                
+                if (result.success) {
+                    successCount++;
+                    if (result.linha) linhas.push(result.linha);
+                } else {
+                    errorCount++;
+                }
+                
+                updateFileList();
+            }
+            
+            progressFill.style.width = '100%';
+            
+            // Mostrar resumo
+            summary.style.display = 'block';
+            
+            let summaryHtml = `
+                <div class="summary-item">
+                    <span class="summary-label">Total de arquivos:</span>
+                    <span class="summary-value">${selectedFiles.length}</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">✅ Sucesso:</span>
+                    <span class="summary-value">${successCount}</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">❌ Erros:</span>
+                    <span class="summary-value">${errorCount}</span>
+                </div>
+            `;
+            
+            if (linhas.length > 0) {
+                summaryHtml += `
+                    <div class="summary-item">
+                        <span class="summary-label">Linhas inseridas:</span>
+                        <span class="summary-value">${linhas.join(', ')}</span>
+                    </div>
+                `;
+            }
+            
+            summaryContent.innerHTML = summaryHtml;
+            
+            // Mostrar para qual aba foi enviado
+            summarySheet.innerHTML = `📌 Dados enviados para a aba: <strong>${selectedSheet}</strong>`;
+            
+            setTimeout(() => {
+                progressBar.style.display = 'none';
+            }, 2000);
+        }
+        
+        uploadButton.addEventListener('click', uploadAll);
+    </script>
+</body>
+</html>
