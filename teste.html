@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Sistema de Romaneio - Marilog Transportes e Logística</title>
+
+  <!-- Fontes (opcional; se estiver offline, o navegador usa fallback) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --azul-marinho: #0D1B2A;
+      --verde-marilog: #66CC33;
+      --cinza-marilog: #B0B3B5;
+      --branco: #FFFFFF;
+      --cinza-claro: #F5F5F5;
+      --borda: #E0E0E0;
+      --sombra: rgba(13, 27, 42, 0.12);
+    }
+
+    body {
+      font-family: 'Roboto', 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+      color: var(--azul-marinho);
+      line-height: 1.6;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px var(--sombra);
+      overflow: hidden;
+    }
+
+    /* ==================== CABEÇALHO ==================== */
+    .header {
+      background: linear-gradient(135deg, var(--azul-marinho) 0%, #1a2f42 100%);
+      color: white;
+      padding: 30px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .logo-section { display: flex; align-items: center; gap: 20px; }
+
+    .logo {
+      height: 56px;
+      width: auto;
+      display: block;
+      object-fit: contain;
+    }
+
+    .header-title { display: flex; flex-direction: column; }
+    .header-title h1 {
+      font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+    .header-title p { font-size: 14px; opacity: 0.9; }
+
+    .header-info {
+      text-align: right;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+    .header-info a { color: #fff; text-decoration: underline; }
+
+    /* ==================== CONTEÚDO ==================== */
+    .content { padding: 40px; }
+    .section { margin-bottom: 35px; }
+
+    .section-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--azul-marinho);
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 3px solid var(--verde-marilog);
+      display: inline-block;
+    }
+
+    /* ==================== UPLOAD ==================== */
+    .upload-area {
+      border: 3px dashed var(--cinza-marilog);
+      border-radius: 8px;
+      padding: 40px;
+      text-align: center;
+      background: var(--cinza-claro);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    .upload-area:hover { border-color: var(--verde-marilog); background: #f0f9e8; }
+    .upload-area.dragover {
+      border-color: var(--verde-marilog);
+      background: #e8f5d8;
+      transform: scale(1.02);
+    }
+
+    .upload-icon { font-size: 48px; color: var(--verde-marilog); margin-bottom: 15px; }
+    .upload-text { font-size: 16px; color: var(--azul-marinho); margin-bottom: 10px; }
+    .upload-hint { font-size: 13px; color: var(--cinza-marilog); }
+
+    #fileInput { display: none; }
+
+    .file-counter {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background: var(--verde-marilog);
+      color: white;
+      border-radius: 6px;
+      display: inline-block;
+      font-weight: 800;
+    }
+
+    /* ==================== FORM ==================== */
+    .form-group { margin-bottom: 20px; }
+    .form-label {
+      display: block;
+      font-weight: 800;
+      margin-bottom: 8px;
+      color: var(--azul-marinho);
+    }
+    .form-textarea {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid var(--borda);
+      border-radius: 6px;
+      font-size: 15px;
+      font-family: 'Roboto', sans-serif;
+      transition: border-color 0.3s;
+      resize: vertical;
+      min-height: 100px;
+    }
+    .form-textarea:focus {
+      outline: none;
+      border-color: var(--verde-marilog);
+      box-shadow: 0 0 0 3px rgba(102, 204, 51, 0.18);
+    }
+
+    /* ==================== FORMULÁRIO MANUAL ==================== */
+    .manual-form {
+      background: var(--cinza-claro);
+      border-radius: 8px;
+      padding: 25px;
+      margin-top: 20px;
+      border: 2px solid var(--borda);
+    }
+
+    .manual-form h3 {
+      font-family: 'Montserrat', sans-serif;
+      color: var(--azul-marinho);
+      margin-bottom: 20px;
+      font-size: 18px;
+    }
+
+    .manual-form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .manual-input-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .manual-input-group label {
+      font-weight: 700;
+      font-size: 13px;
+      margin-bottom: 5px;
+      color: var(--azul-marinho);
+    }
+
+    .manual-input {
+      padding: 10px 12px;
+      border: 2px solid var(--borda);
+      border-radius: 6px;
+      font-size: 14px;
+      transition: border-color 0.3s;
+    }
+    .manual-input:focus {
+      outline: none;
+      border-color: var(--verde-marilog);
+      box-shadow: 0 0 0 3px rgba(102, 204, 51, 0.18);
+    }
+
+    .btn-manual {
+      background: var(--verde-marilog);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-manual:hover {
+      background: #5bb82e;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 204, 51, 0.3);
+    }
+
+    /* ==================== TOGGLE ==================== */
+    .toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      user-select: none;
+      cursor: pointer;
+      font-weight: 800;
+      color: var(--azul-marinho);
+      background: var(--cinza-claro);
+      border: 2px solid var(--borda);
+      padding: 12px 14px;
+      border-radius: 10px;
+    }
+    .toggle input { display: none; }
+    .toggle-ui {
+      width: 52px;
+      height: 28px;
+      border-radius: 999px;
+      background: var(--cinza-marilog);
+      position: relative;
+      transition: 0.2s ease;
+      box-shadow: inset 0 0 0 2px rgba(0,0,0,0.06);
+      flex: 0 0 auto;
+    }
+    .toggle-ui::after {
+      content: "";
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: white;
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      transition: 0.2s ease;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+    }
+    .toggle input:checked + .toggle-ui { background: var(--verde-marilog); }
+    .toggle input:checked + .toggle-ui::after { transform: translateX(24px); }
+    .toggle-text { font-size: 14px; }
+
+    /* ==================== TABELA ==================== */
+    .table-container {
+      overflow-x: auto;
+      border: 2px solid var(--borda);
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+
+    .romaneio-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+    }
+    .romaneio-table thead { background: var(--azul-marinho); color: white; }
+    .romaneio-table th {
+      padding: 15px;
+      text-align: left;
+      font-weight: 800;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+    .romaneio-table td {
+      padding: 12px 15px;
+      border-bottom: 1px solid var(--borda);
+      vertical-align: top;
+    }
+    .romaneio-table tbody tr:hover { background: var(--cinza-claro); }
+    .romaneio-table tbody tr:last-child td { border-bottom: none; }
+
+    .btn-remove {
+      background: #dc3545;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 800;
+      transition: background 0.3s;
+      white-space: nowrap;
+    }
+    .btn-remove:hover { background: #c82333; }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--cinza-marilog);
+    }
+    .empty-state-icon { font-size: 64px; margin-bottom: 15px; opacity: 0.5; }
+
+    .table-input {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid var(--borda);
+      border-radius: 8px;
+      font: inherit;
+      color: var(--azul-marinho);
+      background: #fff;
+    }
+    .table-input:focus {
+      outline: none;
+      border-color: var(--verde-marilog);
+      box-shadow: 0 0 0 3px rgba(102, 204, 51, 0.18);
+    }
+
+    .pn-desc {
+      display: grid;
+      grid-template-columns: 170px 1fr;
+      gap: 10px;
+      min-width: 360px;
+    }
+
+    /* ==================== BOTÕES ==================== */
+    .action-buttons {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+
+    .btn {
+      padding: 14px 32px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-primary { background: var(--verde-marilog); color: white; }
+    .btn-primary:hover {
+      background: #5bb82e;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 204, 51, 0.3);
+    }
+
+    .btn-danger { background: #dc3545; color: white; }
+    .btn-danger:hover {
+      background: #c82333;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(220, 53, 69, 0.3);
+    }
+
+    .btn-secondary {
+      background: var(--cinza-marilog);
+      color: white;
+    }
+    .btn-secondary:hover {
+      background: #9a9c9e;
+      transform: translateY(-2px);
+    }
+
+    .btn:disabled {
+      background: var(--cinza-marilog);
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+    .btn:disabled:hover { transform: none; box-shadow: none; }
+
+    /* ==================== RODAPÉ ==================== */
+    .footer {
+      background: var(--cinza-claro);
+      padding: 20px 40px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--cinza-marilog);
+      border-top: 3px solid var(--verde-marilog);
+    }
+
+    /* ==================== NOTIFICAÇÕES ==================== */
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 16px 24px;
+      border-radius: 10px;
+      color: white;
+      font-weight: 900;
+      box-shadow: 0 6px 24px rgba(0,0,0,0.2);
+      z-index: 1000;
+      animation: slideIn 0.25s ease;
+      max-width: min(560px, calc(100vw - 40px));
+    }
+    @keyframes slideIn {
+      from { transform: translateX(400px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    .notification.success { background: var(--verde-marilog); }
+    .notification.error { background: #dc3545; }
+    .notification.info { background: #17a2b8; }
+
+    @media print {
+      body { background: white; padding: 0; }
+      .container { box-shadow: none; border-radius: 0; }
+      .upload-area, .action-buttons, .btn-remove, .footer, .toggle, .manual-form { display: none !important; }
+    }
+
+    @media (max-width: 768px) {
+      .header { flex-direction: column; text-align: center; }
+      .header-info { text-align: center; }
+      .content { padding: 20px; }
+      .action-buttons { flex-direction: column; }
+      .btn { width: 100%; justify-content: center; }
+      .pn-desc { grid-template-columns: 1fr; min-width: 240px; }
+      .manual-form-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <!-- CABEÇALHO -->
+    <div class="header">
+      <div class="logo-section">
+        <!-- Logo do GitHub (site) -->
+        <img
+          src="https://raw.githubusercontent.com/HerschelNayuta/Marilog/refs/heads/main/Logo_Branca.png"
+          alt="Marilog Logo"
+          class="logo"
+        >
+        <div class="header-title">
+          <h1>Sistema de Romaneio</h1>
+          <p>Geração de Manifestos de Carga</p>
+        </div>
+      </div>
+
+      <div class="header-info">
+        <div><strong>MARILOG TRANSPORTES E LOGÍSTICA</strong></div>
+        <div>📞 (47) 99217-7018 | (47) 99292-6941</div>
+        <div>📧 <a href="mailto:comercial@marilog.com.br">comercial@marilog.com.br</a></div>
+        <div>🌐 www.marilog.com.br</div>
+      </div>
+    </div>
+
+    <!-- CONTEÚDO -->
+    <div class="content">
+      <div class="section">
+        <h2 class="section-title">1. Upload de NF-e (XML)</h2>
+
+        <div class="upload-area" id="uploadArea">
+          <div class="upload-icon">📄</div>
+          <div class="upload-text">Clique ou arraste arquivos XML das NF-e</div>
+          <div class="upload-hint">Você pode selecionar múltiplos arquivos</div>
+          <input type="file" id="fileInput" accept=".xml" multiple>
+        </div>
+
+        <div id="fileCounter" class="file-counter" style="display:none;">
+          <span id="fileCountText">0 arquivo(s) XML carregado(s)</span>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2 class="section-title">2. Adicionar Item Manualmente</h2>
+        
+        <div class="manual-form">
+          <h3>➕ Preencha os dados do item</h3>
+          <div class="manual-form-grid">
+            <div class="manual-input-group">
+              <label for="manualNfe">NF-e (opcional)</label>
+              <input type="text" id="manualNfe" class="manual-input" placeholder="Ex: 123456">
+            </div>
+            <div class="manual-input-group">
+              <label for="manualPedido">Nº Pedido <span style="color: #dc3545;">*</span></label>
+              <input type="text" id="manualPedido" class="manual-input" placeholder="Ex: P12345">
+            </div>
+            <div class="manual-input-group">
+              <label for="manualPN">PN <span style="color: #dc3545;">*</span></label>
+              <input type="text" id="manualPN" class="manual-input" placeholder="Ex: 1234-5678">
+            </div>
+            <div class="manual-input-group">
+              <label for="manualDescricao">Descrição <span style="color: #dc3545;">*</span></label>
+              <input type="text" id="manualDescricao" class="manual-input" placeholder="Descrição do produto">
+            </div>
+            <div class="manual-input-group">
+              <label for="manualQuantidade">Quantidade <span style="color: #dc3545;">*</span></label>
+              <input type="number" id="manualQuantidade" class="manual-input" placeholder="0" min="0" step="0.01" value="1">
+            </div>
+          </div>
+          <button class="btn-manual" id="btnAdicionarManual">
+            <span>➕</span> Adicionar Item ao Romaneio
+          </button>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2 class="section-title">3. Endereço de Entrega / Observações</h2>
+        <div class="form-group">
+          <label class="form-label" for="enderecoEntrega">Destino / Observações</label>
+          <textarea
+            class="form-textarea"
+            id="enderecoEntrega"
+            placeholder="Digite o endereço completo de entrega e/ou observações do romaneio..."
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2 class="section-title">Configurações do Romaneio</h2>
+        <label class="toggle" title="Quando desativado, a NF-e não aparece nem na tela nem no PDF">
+          <input type="checkbox" id="chkMostrarNfe" checked>
+          <span class="toggle-ui"></span>
+          <span class="toggle-text">Mostrar NF-e (na tela e no PDF)</span>
+        </label>
+      </div>
+
+      <div class="section">
+        <h2 class="section-title">4. Itens do Romaneio</h2>
+
+        <div class="table-container">
+          <table class="romaneio-table">
+            <thead>
+              <tr id="romaneioHeadRow">
+                <th>NF-e</th>
+                <th>Nº Pedido</th>
+                <th>PN / Descrição</th>
+                <th style="text-align:right;">Quantidade</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="romaneioTableBody">
+              <tr>
+                <td colspan="5">
+                  <div class="empty-state">
+                    <div class="empty-state-icon">📋</div>
+                    <p>Nenhum item adicionado ainda</p>
+                    <p style="font-size: 13px; margin-top: 5px;">Faça upload dos arquivos XML ou adicione itens manualmente acima</p>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div style="margin-top:12px; color: var(--cinza-marilog); font-size: 13px;">
+          Dica: edite <b>Nº do Pedido</b>, <b>PN</b> e <b>Descrição</b> direto na tabela antes de exportar o PDF.
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <button class="btn btn-primary" id="btnExportPDF" disabled>📥 Exportar PDF</button>
+        <button class="btn btn-danger" id="btnZerar">🗑️ Zerar Romaneio</button>
+        <button class="btn btn-secondary" id="btnLimparManuais">🧹 Limpar Campos Manuais</button>
+      </div>
+    </div>
+
+    <div class="footer">
+      Sistema de Romaneio Marilog v1.1 - Funciona 100% Offline (exceto bibliotecas do PDF via CDN) | © 2026 Marilog Transportes e Logística
+    </div>
+  </div>
+
+  <!-- Bibliotecas do PDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+
+  <script>
+    // ==================== CONFIG / LOGO ====================
+    const LOGO_URL = "https://raw.githubusercontent.com/HerschelNayuta/Marilog/refs/heads/main/Logo_Branca.png";
+
+    let _logoCache = null; // { dataUrl, w, h }
+
+    function loadImageAsDataURL(url) {
+      if (_logoCache) return Promise.resolve(_logoCache);
+
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+
+        img.onload = () => {
+          try {
+            const canvas = document.createElement("canvas");
+            canvas.width = img.naturalWidth || img.width;
+            canvas.height = img.naturalHeight || img.height;
+
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0);
+
+            const dataUrl = canvas.toDataURL("image/png");
+            _logoCache = { dataUrl, w: canvas.width, h: canvas.height };
+            resolve(_logoCache);
+          } catch (e) {
+            reject(e);
+          }
+        };
+
+        img.onerror = (e) => reject(e);
+
+        // cache-buster para evitar cache estranho em alguns ambientes
+        img.src = url + (url.includes("?") ? "&" : "?") + "v=" + Date.now();
+      });
+    }
+
+    // ==================== ESTADO ====================
+    let romaneioItems = [];
+    let arquivosXmlCarregados = 0;
+
+    const settings = { mostrarNfe: true };
+
+    // ==================== DOM ====================
+    const uploadArea = document.getElementById('uploadArea');
+    const fileInput = document.getElementById('fileInput');
+    const fileCounter = document.getElementById('fileCounter');
+    const fileCountText = document.getElementById('fileCountText');
+    const enderecoEntrega = document.getElementById('enderecoEntrega');
+    const romaneioTableBody = document.getElementById('romaneioTableBody');
+    const romaneioHeadRow = document.getElementById('romaneioHeadRow');
+    const btnExportPDF = document.getElementById('btnExportPDF');
+    const btnZerar = document.getElementById('btnZerar');
+    const btnLimparManuais = document.getElementById('btnLimparManuais');
+    const chkMostrarNfe = document.getElementById('chkMostrarNfe');
+    
+    // Campos do formulário manual
+    const manualNfe = document.getElementById('manualNfe');
+    const manualPedido = document.getElementById('manualPedido');
+    const manualPN = document.getElementById('manualPN');
+    const manualDescricao = document.getElementById('manualDescricao');
+    const manualQuantidade = document.getElementById('manualQuantidade');
+    const btnAdicionarManual = document.getElementById('btnAdicionarManual');
+
+    // ==================== EVENTOS ====================
+    uploadArea.addEventListener('click', () => fileInput.click());
+
+    uploadArea.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      uploadArea.classList.add('dragover');
+    });
+
+    uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('dragover'));
+
+    uploadArea.addEventListener('drop', (e) => {
+      e.preventDefault();
+      uploadArea.classList.remove('dragover');
+      handleFiles(e.dataTransfer.files);
+    });
+
+    fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
+
+    btnExportPDF.addEventListener('click', exportToPDF);
+    btnZerar.addEventListener('click', zerarRomaneio);
+    btnLimparManuais.addEventListener('click', limparCamposManuais);
+    btnAdicionarManual.addEventListener('click', adicionarItemManual);
+
+    chkMostrarNfe.addEventListener('change', () => {
+      settings.mostrarNfe = chkMostrarNfe.checked;
+      updateTable();
+    });
+
+    // ==================== HELPERS ====================
+    function showNotification(message, type = 'info') {
+      const notification = document.createElement('div');
+      notification.className = `notification ${type}`;
+      notification.textContent = message;
+      document.body.appendChild(notification);
+
+      setTimeout(() => {
+        notification.style.opacity = '0';
+        setTimeout(() => notification.remove(), 250);
+      }, 2800);
+    }
+
+    function fmtQtd(n) {
+      const v = Number(n) || 0;
+      return v.toFixed(2);
+    }
+
+    function escapeHtml(str) {
+      return (str ?? '').toString()
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
+    function escapeAttr(str) {
+      return escapeHtml(str).replaceAll('\n', ' ');
+    }
+
+    // edição inline
+    function updateItemField(index, field, value) {
+      if (!romaneioItems[index]) return;
+      romaneioItems[index][field] = value;
+    }
+    window.updateItemField = updateItemField;
+
+    // ==================== FUNÇÕES MANUAIS ====================
+    function limparCamposManuais() {
+      manualNfe.value = '';
+      manualPedido.value = '';
+      manualPN.value = '';
+      manualDescricao.value = '';
+      manualQuantidade.value = '1';
+      showNotification('Campos limpos!', 'info');
+    }
+
+    function adicionarItemManual() {
+      // Validação dos campos obrigatórios
+      if (!manualPedido.value.trim()) {
+        showNotification('O campo Nº Pedido é obrigatório!', 'error');
+        manualPedido.focus();
+        return;
+      }
+      if (!manualPN.value.trim()) {
+        showNotification('O campo PN é obrigatório!', 'error');
+        manualPN.focus();
+        return;
+      }
+      if (!manualDescricao.value.trim()) {
+        showNotification('O campo Descrição é obrigatório!', 'error');
+        manualDescricao.focus();
+        return;
+      }
+      
+      const quantidade = parseFloat(manualQuantidade.value) || 0;
+      if (quantidade <= 0) {
+        showNotification('A quantidade deve ser maior que zero!', 'error');
+        manualQuantidade.focus();
+        return;
+      }
+
+      // Cria o novo item
+      const novoItem = {
+        nfe: manualNfe.value.trim() || 'N/A',
+        pedido: manualPedido.value.trim(),
+        pn: manualPN.value.trim(),
+        descricao: manualDescricao.value.trim(),
+        quantidade: quantidade
+      };
+
+      // Adiciona ao array
+      romaneioItems.push(novoItem);
+      
+      // Atualiza a tabela
+      updateTable();
+      
+      // Limpa os campos
+      limparCamposManuais();
+      
+      showNotification('Item adicionado com sucesso!', 'success');
+    }
+
+    // ==================== IMPORTAÇÃO XML ====================
+    function handleFiles(files) {
+      if (!files || files.length === 0) return;
+
+      let algumValido = false;
+
+      Array.from(files).forEach(file => {
+        if (!file.name.toLowerCase().endsWith('.xml')) {
+          showNotification(`Arquivo ignorado: ${file.name} (apenas .xml)`, 'error');
+          return;
+        }
+
+        algumValido = true;
+        const reader = new FileReader();
+
+        reader.onload = (e) => {
+          try {
+            const xmlContent = e.target.result;
+            const items = parseNFeXML(xmlContent);
+
+            if (items && items.length > 0) {
+              romaneioItems.push(...items);
+              arquivosXmlCarregados++;
+              updateFileCounter();
+              updateTable();
+              showNotification(`${items.length} item(ns) importado(s) de ${file.name}`, 'success');
+            } else {
+              showNotification(`Não foi possível extrair itens de ${file.name}`, 'error');
+            }
+          } catch (err) {
+            console.error(err);
+            showNotification(`Erro ao processar ${file.name}`, 'error');
+          }
+        };
+
+        reader.onerror = () => showNotification(`Erro ao ler o arquivo ${file.name}`, 'error');
+        reader.readAsText(file);
+      });
+
+      if (!algumValido) return;
+      fileInput.value = '';
+    }
+
+    function parseNFeXML(xmlString) {
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(xmlString, 'text/xml');
+
+      const parserError = xmlDoc.querySelector('parsererror');
+      if (parserError) throw new Error('XML inválido');
+
+      const getText = (selector) => (xmlDoc.querySelector(selector)?.textContent || '').trim();
+
+      const nfeNumber = getText('nNF') || getText('ide nNF') || 'N/A';
+
+      let pedidoNumber = getText('xPed') || getText('infAdic xPed') || '';
+      if (!pedidoNumber) {
+        const infCpl = getText('infCpl');
+        const m = infCpl.match(/P\d+/i);
+        pedidoNumber = m ? m[0].toUpperCase() : 'N/A';
+      }
+
+      const items = [];
+
+      const addItemFromProd = (prod) => {
+        const pn = (prod.querySelector('cProd')?.textContent || '').trim() || 'N/A';
+        const descricao = (prod.querySelector('xProd')?.textContent || '').trim() || 'Sem descrição';
+        const quantidadeRaw = (prod.querySelector('qCom')?.textContent || '0').trim();
+
+        items.push({
+          nfe: nfeNumber,
+          pedido: pedidoNumber || 'N/A',
+          pn,
+          descricao,
+          quantidade: Number.parseFloat(quantidadeRaw) || 0
+        });
+      };
+
+      const dets = xmlDoc.querySelectorAll('det');
+      if (dets.length > 0) {
+        dets.forEach(det => {
+          const prod = det.querySelector('prod');
+          if (prod) addItemFromProd(prod);
+        });
+      } else {
+        xmlDoc.querySelectorAll('prod').forEach(prod => addItemFromProd(prod));
+      }
+
+      return items;
+    }
+
+    // ==================== TABELA ====================
+    function updateFileCounter() {
+      if (arquivosXmlCarregados > 0) {
+        fileCounter.style.display = 'inline-block';
+        fileCountText.textContent = `${arquivosXmlCarregados} arquivo(s) XML carregado(s)`;
+      } else {
+        fileCounter.style.display = 'none';
+      }
+    }
+
+    function updateTable() {
+      romaneioHeadRow.innerHTML = `
+        ${settings.mostrarNfe ? '<th>NF-e</th>' : ''}
+        <th>Nº Pedido</th>
+        <th>PN / Descrição</th>
+        <th style="text-align:right;">Quantidade</th>
+        <th>Ações</th>
+      `;
+
+      const colCount = settings.mostrarNfe ? 5 : 4;
+
+      if (romaneioItems.length === 0) {
+        romaneioTableBody.innerHTML = `
+          <tr>
+            <td colspan="${colCount}">
+              <div class="empty-state">
+                <div class="empty-state-icon">📋</div>
+                <p>Nenhum item adicionado ainda</p>
+                <p style="font-size: 13px; margin-top: 5px;">Faça upload dos arquivos XML ou adicione itens manualmente acima</p>
+              </div>
+            </td>
+          </tr>
+        `;
+        btnExportPDF.disabled = true;
+        return;
+      }
+
+      romaneioTableBody.innerHTML = '';
+
+      romaneioItems.forEach((item, index) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          ${settings.mostrarNfe ? `<td><strong>${escapeHtml(item.nfe)}</strong></td>` : ''}
+
+          <td style="min-width: 180px;">
+            <input class="table-input"
+              value="${escapeAttr(item.pedido)}"
+              placeholder="Pedido"
+              oninput="updateItemField(${index}, 'pedido', this.value)"
+            />
+          </td>
+
+          <td>
+            <div class="pn-desc">
+              <input class="table-input"
+                value="${escapeAttr(item.pn)}"
+                placeholder="PN"
+                oninput="updateItemField(${index}, 'pn', this.value)"
+              />
+              <input class="table-input"
+                value="${escapeAttr(item.descricao)}"
+                placeholder="Descrição do produto/serviço"
+                oninput="updateItemField(${index}, 'descricao', this.value)"
+              />
+            </div>
+          </td>
+
+          <td style="text-align:right; min-width: 110px;">${fmtQtd(item.quantidade)}</td>
+
+          <td style="min-width: 110px;">
+            <button class="btn-remove" onclick="removeItem(${index})">Remover</button>
+          </td>
+        `;
+        romaneioTableBody.appendChild(tr);
+      });
+
+      btnExportPDF.disabled = false;
+    }
+
+    function removeItem(index) {
+      romaneioItems.splice(index, 1);
+      updateTable();
+      showNotification('Item removido', 'info');
+    }
+    window.removeItem = removeItem;
+
+    function zerarRomaneio() {
+      if (romaneioItems.length === 0 && !enderecoEntrega.value.trim()) {
+        showNotification('Não há dados para limpar', 'info');
+        return;
+      }
+
+      if (confirm('Tem certeza que deseja zerar o romaneio? Todos os dados serão perdidos.')) {
+        romaneioItems = [];
+        arquivosXmlCarregados = 0;
+        enderecoEntrega.value = '';
+        updateFileCounter();
+        updateTable();
+        showNotification('Romaneio zerado com sucesso!', 'success');
+      }
+    }
+
+    // ==================== PDF ====================
+    async function exportToPDF() {
+      if (romaneioItems.length === 0) {
+        showNotification('Adicione pelo menos um item ao romaneio!', 'error');
+        return;
+      }
+
+      if (!enderecoEntrega.value.trim()) {
+        if (!confirm('O destino/observações não foi preenchido. Deseja continuar mesmo assim?')) return;
+      }
+
+      try {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF('p', 'mm', 'a4');
+
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const pageHeight = doc.internal.pageSize.getHeight();
+        const margin = 15;
+        let y = margin;
+
+        // Cabeçalho Marilog (bloco azul)
+        doc.setFillColor(13, 27, 42);
+        doc.rect(0, 0, pageWidth, 45, 'F');
+
+        // Tenta colocar a LOGO no lugar do "MARILOG"
+        let logoOk = false;
+        try {
+          const logo = await loadImageAsDataURL(LOGO_URL);
+          const desiredH = 14; // mm (altura da logo no PDF)
+          const desiredW = desiredH * (logo.w / logo.h);
+
+          // posicione dentro do header
+          doc.addImage(logo.dataUrl, 'PNG', margin, 10, desiredW, desiredH);
+          logoOk = true;
+        } catch (e) {
+          // fallback para texto
+          logoOk = false;
+        }
+
+        // Se falhar a logo por algum motivo, volta para texto
+        doc.setTextColor(255,255,255);
+        if (!logoOk) {
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(22);
+          doc.text('MARILOG', margin, y + 10);
+        }
+
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(10);
+        doc.text('Transportes e Logística', margin, y + 16);
+
+        doc.setFontSize(8);
+        const infoX = pageWidth - margin;
+        doc.text('(47) 99217-7018 | (47) 99292-6941', infoX, y + 8, { align: 'right' });
+        doc.text('comercial@marilog.com.br', infoX, y + 13, { align: 'right' });
+        doc.text('www.marilog.com.br', infoX, y + 18, { align: 'right' });
+
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(16);
+        doc.text('ROMANEIO DE CARGA', pageWidth / 2, y + 30, { align: 'center' });
+
+        y = 55;
+
+        // Data e hora
+        doc.setTextColor(13, 27, 42);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(10);
+
+        const now = new Date();
+        const dataEmissao = now.toLocaleDateString('pt-BR');
+        const horaEmissao = now.toLocaleTimeString('pt-BR');
+
+        doc.text(`Data de Emissão: ${dataEmissao}`, margin, y);
+        doc.text(`Hora: ${horaEmissao}`, pageWidth - margin, y, { align: 'right' });
+        y += 10;
+
+        // Linha verde
+        doc.setDrawColor(102, 204, 51);
+        doc.setLineWidth(0.5);
+        doc.line(margin, y, pageWidth - margin, y);
+        y += 8;
+
+        // Destino/Observações
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(11);
+        doc.text('DESTINO / OBSERVAÇÕES:', margin, y);
+        y += 6;
+
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(10);
+        const obs = enderecoEntrega.value.trim() || 'Não informado';
+        const obsLines = doc.splitTextToSize(obs, pageWidth - (margin * 2));
+        doc.text(obsLines, margin, y);
+        y += (obsLines.length * 5) + 8;
+
+        // Linha verde
+        doc.setDrawColor(102, 204, 51);
+        doc.line(margin, y, pageWidth - margin, y);
+        y += 8;
+
+        // Tabela
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(11);
+        doc.text('ITENS DO ROMANEIO:', margin, y);
+        y += 7;
+
+        const head = settings.mostrarNfe
+          ? [['NF-e', 'Nº Pedido', 'PN / Descrição', 'Quantidade']]
+          : [['Nº Pedido', 'PN / Descrição', 'Quantidade']];
+
+        const body = romaneioItems.map(item => {
+          const pn = (item.pn || '').toString().trim();
+          const desc = (item.descricao || '').toString().trim();
+          const pnDesc = `${pn}${pn && desc ? ' - ' : ''}${desc}`.trim() || 'N/A';
+
+          if (settings.mostrarNfe) return [item.nfe, item.pedido, pnDesc, fmtQtd(item.quantidade)];
+          return [item.pedido, pnDesc, fmtQtd(item.quantidade)];
+        });
+
+        doc.autoTable({
+          startY: y,
+          head: head,
+          body: body,
+          theme: 'striped',
+          headStyles: {
+            fillColor: [13, 27, 42],
+            textColor: [255, 255, 255],
+            fontStyle: 'bold',
+            fontSize: 10
+          },
+          bodyStyles: { fontSize: 9, textColor: [13, 27, 42] },
+          alternateRowStyles: { fillColor: [245, 245, 245] },
+          margin: { left: margin, right: margin },
+          columnStyles: {
+            [settings.mostrarNfe ? 3 : 2]: { halign: 'right' }
+          }
+        });
+
+        y = doc.lastAutoTable.finalY + 15;
+
+        // Resumo
+        if (y > pageHeight - 60) { doc.addPage(); y = margin; }
+
+        doc.setFillColor(245, 245, 245);
+        doc.rect(margin, y, pageWidth - (margin * 2), 25, 'F');
+
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(10);
+        y += 8;
+        doc.text('RESUMO:', margin + 5, y);
+        y += 6;
+
+        doc.setFont('helvetica', 'normal');
+        const totalItens = romaneioItems.length;
+        const totalQuantidade = romaneioItems.reduce((sum, it) => sum + (Number(it.quantidade) || 0), 0);
+
+        doc.text(`Total de Itens: ${totalItens}`, margin + 5, y);
+        doc.text(`Quantidade Total: ${fmtQtd(totalQuantidade)}`, margin + 5, y + 5);
+
+        y += 20;
+
+        // Assinatura
+        if (y > pageHeight - 40) { doc.addPage(); y = margin; }
+
+        y += 10;
+        doc.setDrawColor(0, 0, 0);
+        doc.setLineWidth(0.3);
+        doc.line(margin + 20, y, pageWidth - margin - 20, y);
+        y += 5;
+        doc.setFontSize(9);
+        doc.text('Assinatura do Responsável', pageWidth / 2, y, { align: 'center' });
+
+        // Rodapé (linha verde)
+        const footerY = pageHeight - 15;
+        doc.setFontSize(8);
+        doc.setTextColor(176, 179, 181);
+        doc.setFont('helvetica', 'italic');
+        doc.text('Documento gerado pelo Sistema de Romaneio Marilog', pageWidth / 2, footerY, { align: 'center' });
+
+        doc.setDrawColor(102, 204, 51);
+        doc.setLineWidth(1);
+        doc.line(margin, footerY - 5, pageWidth - margin, footerY - 5);
+
+        // Salvar
+        const filename = `Romaneio_Marilog_${dataEmissao.replace(/\//g,'-')}_${horaEmissao.replace(/:/g,'-')}.pdf`;
+        doc.save(filename);
+
+        showNotification('PDF gerado com sucesso!', 'success');
+      } catch (err) {
+        console.error(err);
+        showNotification('Erro ao gerar PDF. Verifique se as bibliotecas foram carregadas.', 'error');
+      }
+    }
+
+    // ==================== INIT ====================
+    window.addEventListener('load', () => {
+      updateTable();
+      updateFileCounter();
+    });
+  </script>
+</body>
+</html>
