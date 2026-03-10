@@ -1,6 +1,7 @@
-# marilog_tracker.py - VERSÃO COMPLETA COM BUONNY + NOX GR
+# marilog_tracker.py - VERSÃO COMPLETA COM BUONNY + NOX GR (PostgreSQL)
 import requests
-import sqlite3
+import psycopg2
+import psycopg2.extras
 import json
 from datetime import datetime, timedelta
 import time
@@ -13,7 +14,7 @@ from requests.auth import HTTPBasicAuth
 
 class MarilogTracker:
     def __init__(self):
-        # Configuração das transportadoras
+        # Configuração das transportadoras (mesmo código)
         self.transportadoras = [
             {
                 'nome': 'Marilog',
@@ -46,7 +47,7 @@ class MarilogTracker:
             }
         ]
         
-        # Configuração dos provedores
+        # Configuração dos provedores (mesmo código)
         self.provedores = {
             'Buonny': {
                 'url': 'https://api.buonny.com.br/portal/viagens.json',
@@ -61,25 +62,36 @@ class MarilogTracker:
             }
         }
         
+        # Parâmetros de conexão PostgreSQL (substitua pelos seus dados)
+        self.db_params = {
+            'host': 'localhost',
+            'database': 'marilog',
+            'user': 'marilog_user',
+            'password': 'sua_senha_forte'
+        }
+        
         if getattr(sys, 'frozen', False):
             self.base_path = os.path.dirname(sys.executable)
         else:
             self.base_path = os.path.dirname(os.path.abspath(__file__))
         
+        # O nome do banco agora é usado apenas para referência, não para conexão SQLite
         self.db_name = os.path.join(self.base_path, "marilog_tracking.db")
         self.init_database()
     
     def get_connection(self):
-        return sqlite3.connect(self.db_name, timeout=30)
+        """Retorna uma conexão PostgreSQL"""
+        return psycopg2.connect(**self.db_params)
     
     def init_database(self):
+        """Cria as tabelas no PostgreSQL se não existirem"""
         conn = self.get_connection()
         cursor = conn.cursor()
         
         # Tabela de transportadoras
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS transportadoras (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                id SERIAL PRIMARY KEY,
                 nome TEXT NOT NULL,
                 cnpj TEXT UNIQUE NOT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -89,7 +101,7 @@ class MarilogTracker:
         # Tabela de provedores
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS provedores (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                id SERIAL PRIMARY KEY,
                 nome TEXT UNIQUE NOT NULL,
                 base_url TEXT,
                 tipo TEXT,
@@ -100,9 +112,9 @@ class MarilogTracker:
         # Tabela de veículos
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS vehicles (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                id SERIAL PRIMARY KEY,
                 placa TEXT UNIQUE NOT NULL,
-                transportadora_id INTEGER NOT NULL,
+                transportadora_id INTEGER NOT NULL REFERENCES transportadoras(id),
                 transportadora_nome TEXT NOT NULL,
                 modelo TEXT,
                 motorista TEXT,
@@ -114,8 +126,8 @@ class MarilogTracker:
         # Tabela de rotas
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS routes (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                vehicle_id INTEGER NOT NULL,
+                id SERIAL PRIMARY KEY,
+                vehicle_id INTEGER NOT NULL REFERENCES vehicles(id),
                 sm_number TEXT,
                 origem TEXT,
                 destino TEXT,
@@ -128,11 +140,11 @@ class MarilogTracker:
         # Tabela de últimas posições (COM CAMPO LIBERACAO)
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS vehicle_last_positions (
-                vehicle_id INTEGER PRIMARY KEY,
+                vehicle_id INTEGER PRIMARY KEY REFERENCES vehicles(id),
                 placa TEXT NOT NULL,
-                transportadora_id INTEGER NOT NULL,
+                transportadora_id INTEGER NOT NULL REFERENCES transportadoras(id),
                 transportadora_nome TEXT NOT NULL,
-                provedor_id INTEGER NOT NULL,
+                provedor_id INTEGER NOT NULL REFERENCES provedores(id),
                 provedor_nome TEXT NOT NULL,
                 sm_number TEXT,
                 latitude REAL,
@@ -151,8 +163,8 @@ class MarilogTracker:
         # Tabela de histórico
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS vehicle_positions_history (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                vehicle_id INTEGER NOT NULL,
+                id SERIAL PRIMARY KEY,
+                vehicle_id INTEGER NOT NULL REFERENCES vehicles(id),
                 placa TEXT NOT NULL,
                 latitude REAL,
                 longitude REAL,
@@ -163,21 +175,28 @@ class MarilogTracker:
             )
         ''')
         
-        # Inserir dados iniciais
+        # Inserir dados iniciais (ignorar se já existir)
         for t in self.transportadoras:
-            cursor.execute("INSERT OR IGNORE INTO transportadoras (nome, cnpj) VALUES (?, ?)", 
-                         (t['nome'], t['cnpj']))
+            cursor.execute(
+                "INSERT INTO transportadoras (nome, cnpj) VALUES (%s, %s) ON CONFLICT (cnpj) DO NOTHING",
+                (t['nome'], t['cnpj'])
+            )
         
         for p in self.provedores.values():
-            cursor.execute("INSERT OR IGNORE INTO provedores (nome, base_url, tipo) VALUES (?, ?, ?)", 
-                         (p['nome'], p.get('url', ''), p.get('tipo', 'REST')))
+            cursor.execute(
+                "INSERT INTO provedores (nome, base_url, tipo) VALUES (%s, %s, %s) ON CONFLICT (nome) DO NOTHING",
+                (p['nome'], p.get('url', ''), p.get('tipo', 'REST'))
+            )
         
         conn.commit()
         conn.close()
-        print("✅ Banco de dados multi-tenant inicializado (com NOX GR)")
+        print("✅ Banco de dados PostgreSQL inicializado (com NOX GR)")
+    
+    # Demais métodos (fetch_buonny_positions, fetch_nox_positions, etc.) permanecem IGUAIS
+    # até a parte de banco de dados. Apenas os métodos que acessam o banco serão alterados.
     
     def fetch_buonny_positions(self, transportadora, api):
-        """Busca posições da API Buonny"""
+        # (código original, sem alterações)
         try:
             params = {
                 'token': api['token'],
@@ -191,14 +210,12 @@ class MarilogTracker:
                 data = response.json()
                 vehicles = data.get('sucesso')
                 
-                # CORREÇÃO: Tratar None (erro da JMR)
                 if vehicles is None:
                     print(f"   ⚠️ API retornou null (sem veículos)")
                     vehicles = []
                 else:
                     print(f"   ✅ {len(vehicles)} veículos")
                 
-                # Adicionar metadados
                 for v in vehicles:
                     v['_transportadora'] = transportadora['nome']
                     v['_transportadora_cnpj'] = transportadora['cnpj']
@@ -213,21 +230,18 @@ class MarilogTracker:
             return []
     
     def fetch_nox_positions(self, transportadora, api):
-        """Busca posições da API NOX GR via SOAP"""
+        # (código original, sem alterações)
         try:
             print(f"   🔄 Conectando NOX GR...")
             
-            # Criar cliente SOAP
             client = Client(self.provedores['NOX_GR']['wsdl'])
             
-            # Preparar login
             login = {
                 'sUserName': api['login'],
                 'sPassWord': api['senha'],
                 'sToken': api['token']
             }
             
-            # Chamar método Get_ConsultaVeiculoEmViagem
             response = client.service.Get_ConsultaVeiculoEmViagem(
                 Login=login,
                 sCd_CnpjUnidNeg=api['cnpj']
@@ -235,11 +249,9 @@ class MarilogTracker:
             
             vehicles = []
             
-            # Processar resposta
             if response and hasattr(response, 'Veiculo'):
                 veiculos_lista = response.Veiculo
                 
-                # Garantir que é uma lista
                 if not isinstance(veiculos_lista, list):
                     veiculos_lista = [veiculos_lista]
                 
@@ -260,7 +272,7 @@ class MarilogTracker:
                             '_transportadora': transportadora['nome'],
                             '_transportadora_cnpj': transportadora['cnpj'],
                             '_provedor': 'NOX GR',
-                            'alvos': []  # Placeholder para compatibilidade
+                            'alvos': []
                         }
                         vehicles.append(vehicle_data)
                 
@@ -275,7 +287,7 @@ class MarilogTracker:
             return []
     
     def fetch_all_positions(self):
-        """Busca posições de todas as APIs configuradas"""
+        # (código original, sem alterações)
         all_vehicles = []
         
         for transportadora in self.transportadoras:
@@ -297,7 +309,7 @@ class MarilogTracker:
         return all_vehicles
     
     def get_osrm_route(self, origin_lat, origin_lng, dest_lat, dest_lng):
-        """Busca rota real usando OSRM"""
+        # (código original, sem alterações)
         try:
             url = f"http://router.project-osrm.org/route/v1/driving/{origin_lng},{origin_lat};{dest_lng},{dest_lat}"
             params = {
@@ -322,7 +334,7 @@ class MarilogTracker:
             return None
     
     def extract_route_info(self, vehicle_data):
-        """Extrai informações de rota dos dados da API"""
+        # (código original, sem alterações)
         try:
             alvos = vehicle_data.get('alvos', [])
             if not alvos or len(alvos) < 2:
@@ -363,7 +375,7 @@ class MarilogTracker:
             return None
     
     def determinar_status(self, vehicle_data, ultima_posicao=None):
-        """Determina o status do veículo"""
+        # (código original, sem alterações)
         try:
             alvos = vehicle_data.get('alvos', [])
             
@@ -390,7 +402,7 @@ class MarilogTracker:
             return 'desconhecido'
     
     def calcular_tempo_parado(self, vehicle_data, ultima_posicao):
-        """Calcula tempo parado"""
+        # (código original, sem alterações)
         try:
             if not ultima_posicao:
                 return 0
@@ -404,7 +416,7 @@ class MarilogTracker:
             return 0
     
     def save_positions(self, vehicles):
-        """Salva posições no banco"""
+        """Salva posições no banco PostgreSQL"""
         if not vehicles:
             return 0
         
@@ -420,17 +432,19 @@ class MarilogTracker:
                     continue
                 
                 # Verificar se veículo existe
-                cursor.execute("SELECT id FROM vehicles WHERE placa = ?", (placa,))
+                cursor.execute("SELECT id FROM vehicles WHERE placa = %s", (placa,))
                 result = cursor.fetchone()
                 
                 if result:
                     vehicle_id = result[0]
                 else:
+                    # Inserir novo veículo
                     cursor.execute('''
                         INSERT INTO vehicles (placa, transportadora_id, transportadora_nome) 
-                        VALUES (?, (SELECT id FROM transportadoras WHERE nome = ?), ?)
+                        VALUES (%s, (SELECT id FROM transportadoras WHERE nome = %s), %s)
+                        RETURNING id
                     ''', (placa, v['_transportadora'], v['_transportadora']))
-                    vehicle_id = cursor.lastrowid
+                    vehicle_id = cursor.fetchone()[0]
                     print(f"      🆕 Novo veículo {placa} ({v['_transportadora']})")
                 
                 # Converter coordenadas
@@ -449,7 +463,7 @@ class MarilogTracker:
                     cursor.execute('''
                         INSERT INTO vehicle_positions_history
                         (vehicle_id, placa, latitude, longitude, data_hora, status)
-                        VALUES (?, ?, ?, ?, ?, ?)
+                        VALUES (%s, %s, %s, %s, %s, %s)
                     ''', (vehicle_id, placa, lat, lng, v.get('data_hora'), status))
                 
                 # Extrair rota (apenas para Buonny)
@@ -459,7 +473,7 @@ class MarilogTracker:
                     if route_info:
                         cursor.execute('''
                             SELECT id FROM routes 
-                            WHERE vehicle_id = ? AND sm_number = ?
+                            WHERE vehicle_id = %s AND sm_number = %s
                         ''', (vehicle_id, v.get('sm')))
                         
                         existing_route = cursor.fetchone()
@@ -474,7 +488,7 @@ class MarilogTracker:
                                 cursor.execute('''
                                     INSERT INTO routes 
                                     (vehicle_id, sm_number, origem, destino, km_total, route_geometry)
-                                    VALUES (?, ?, ?, ?, ?, ?)
+                                    VALUES (%s, %s, %s, %s, %s, %s)
                                 ''', (
                                     vehicle_id,
                                     v.get('sm'),
@@ -484,15 +498,30 @@ class MarilogTracker:
                                     json.dumps(osrm_route['geometry'])
                                 ))
                 
-                # Atualizar última posição
+                # Atualizar última posição (UPSERT)
                 cursor.execute('''
-                    INSERT OR REPLACE INTO vehicle_last_positions 
+                    INSERT INTO vehicle_last_positions 
                     (vehicle_id, placa, transportadora_id, transportadora_nome, 
                      provedor_id, provedor_nome, sm_number, latitude, longitude, 
                      descricao, data_hora, raw_data, status, tempo_parado, updated_at)
-                    VALUES (?, ?, (SELECT id FROM transportadoras WHERE nome = ?), ?, 
-                            (SELECT id FROM provedores WHERE nome = ?), ?, ?, ?, ?, 
-                            ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+                    VALUES (%s, %s, (SELECT id FROM transportadoras WHERE nome = %s), %s, 
+                            (SELECT id FROM provedores WHERE nome = %s), %s, %s, %s, %s, 
+                            %s, %s, %s, %s, %s, CURRENT_TIMESTAMP)
+                    ON CONFLICT (vehicle_id) DO UPDATE SET
+                        placa = EXCLUDED.placa,
+                        transportadora_id = EXCLUDED.transportadora_id,
+                        transportadora_nome = EXCLUDED.transportadora_nome,
+                        provedor_id = EXCLUDED.provedor_id,
+                        provedor_nome = EXCLUDED.provedor_nome,
+                        sm_number = EXCLUDED.sm_number,
+                        latitude = EXCLUDED.latitude,
+                        longitude = EXCLUDED.longitude,
+                        descricao = EXCLUDED.descricao,
+                        data_hora = EXCLUDED.data_hora,
+                        raw_data = EXCLUDED.raw_data,
+                        status = EXCLUDED.status,
+                        tempo_parado = EXCLUDED.tempo_parado,
+                        updated_at = EXCLUDED.updated_at
                 ''', (
                     vehicle_id, placa, v['_transportadora'], v['_transportadora'],
                     v['_provedor'], v['_provedor'], v.get('sm'), lat, lng,
@@ -516,7 +545,7 @@ class MarilogTracker:
                 conn.close()
     
     def calculate_distance(self, lat1, lon1, lat2, lon2):
-        """Calcula distância aproximada em km"""
+        # (código original, sem alterações)
         R = 6371
         lat1_rad = math.radians(lat1)
         lat2_rad = math.radians(lat2)
@@ -538,9 +567,9 @@ class MarilogTracker:
             cursor.execute('''
                 SELECT latitude, longitude, data_hora
                 FROM vehicle_positions_history
-                WHERE vehicle_id = ?
+                WHERE vehicle_id = %s
                 ORDER BY created_at DESC
-                LIMIT ?
+                LIMIT %s
             ''', (vehicle_id, limit))
             
             positions = []
@@ -563,7 +592,7 @@ class MarilogTracker:
         conn = None
         try:
             conn = self.get_connection()
-            cursor = conn.cursor()
+            cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
             
             cursor.execute('''
                 SELECT 
@@ -591,21 +620,7 @@ class MarilogTracker:
             
             positions = []
             for row in cursor.fetchall():
-                pos = {
-                    'vehicle_id': row[0],
-                    'placa': row[1],
-                    'lat': row[2],
-                    'lng': row[3],
-                    'descricao': row[4],
-                    'data_hora': row[5],
-                    'sm': row[6],
-                    'updated_at': row[7],
-                    'transportadora': row[8],
-                    'provedor': row[9],
-                    'status': row[10],
-                    'tempo_parado': row[11],
-                    'liberacao': row[12]
-                }
+                pos = dict(row)
                 
                 # Traduzir status
                 status_map = {
@@ -618,25 +633,26 @@ class MarilogTracker:
                 pos['status_texto'] = status_map.get(pos['status'], pos['status'])
                 
                 # Adicionar dados de rota
-                if row[13]:  # km_total
+                if pos.get('km_total'):
+                    origem = json.loads(pos['origem']) if pos.get('origem') else None
+                    destino = json.loads(pos['destino']) if pos.get('destino') else None
                     progresso = self.calculate_progress(
-                        row[2], row[3],
-                        json.loads(row[15]) if row[15] else None,
-                        json.loads(row[16]) if row[16] else None,
-                        row[13]
+                        pos['lat'], pos['lng'],
+                        origem, destino,
+                        pos['km_total']
                     )
                     
                     pos['rota'] = {
-                        'km_total': row[13],
-                        'km_total_resumido': f"{row[13]}km",
-                        'route_geometry': json.loads(row[14]) if row[14] else None,
-                        'origem': json.loads(row[15]) if row[15] else None,
-                        'destino': json.loads(row[16]) if row[16] else None,
+                        'km_total': pos['km_total'],
+                        'km_total_resumido': f"{pos['km_total']}km",
+                        'route_geometry': json.loads(pos['route_geometry']) if pos.get('route_geometry') else None,
+                        'origem': origem,
+                        'destino': destino,
                         'progresso': progresso
                     }
                     
                     # Buscar histórico
-                    history = self.get_vehicle_positions_history(row[0], 20)
+                    history = self.get_vehicle_positions_history(pos['vehicle_id'], 20)
                     if history:
                         pos['historico'] = history
                 
@@ -652,7 +668,7 @@ class MarilogTracker:
                 conn.close()
     
     def calculate_progress(self, current_lat, current_lng, origem, destino, km_total):
-        """Calcula progresso da viagem"""
+        # (código original, sem alterações)
         try:
             if not origem or not destino or not current_lat or not current_lng:
                 return 0
@@ -682,7 +698,7 @@ class MarilogTracker:
             
             cursor.execute('''
                 SELECT COUNT(*) FROM vehicle_last_positions 
-                WHERE updated_at > datetime('now', '-1 day')
+                WHERE updated_at > NOW() - INTERVAL '1 day'
             ''')
             stats['veiculos_ativos_24h'] = cursor.fetchone()[0]
             
@@ -737,14 +753,14 @@ class MarilogTracker:
             
             cursor.execute('''
                 UPDATE vehicle_last_positions 
-                SET liberacao = ? 
-                WHERE placa = ?
+                SET liberacao = %s 
+                WHERE placa = %s
             ''', (liberacao, placa))
             
             cursor.execute('''
                 UPDATE vehicle_positions_history 
-                SET liberacao = ? 
-                WHERE placa = ? 
+                SET liberacao = %s 
+                WHERE placa = %s 
                 ORDER BY created_at DESC LIMIT 1
             ''', (liberacao, placa))
             
